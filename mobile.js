@@ -1,26 +1,36 @@
 // 移动端交互逻辑
 const pondsMobile = [
-    { id: 1, name: '1号塘', fish: '鲈鱼', status: 'normal', do: 6.2, ph: 7.4, temp: 26.8 },
-    { id: 2, name: '2号塘', fish: '草鱼', status: 'normal', do: 5.8, ph: 7.2, temp: 27.1 },
-    { id: 3, name: '3号塘', fish: '鲈鱼', status: 'warning', do: 2.3, ph: 7.8, temp: 26.5 },
-    { id: 4, name: '4号塘', fish: '鲫鱼', status: 'normal', do: 6.5, ph: 7.3, temp: 25.9 },
-    { id: 5, name: '5号塘', fish: '南美白对虾', status: 'warning', do: 5.5, ph: 9.2, temp: 27.5 },
-    { id: 6, name: '6号塘', fish: '鲈鱼', status: 'normal', do: 6.0, ph: 7.5, temp: 26.2 },
-    { id: 7, name: '7号塘', fish: '草鱼', status: 'normal', do: 5.9, ph: 7.1, temp: 26.7 },
-    { id: 8, name: '8号塘', fish: '鲈鱼', status: 'normal', do: 6.3, ph: 7.6, temp: 25.8 }
+    { id: 1, name: '1号塘', fish: '鲈鱼', area: '12亩', count: 50000, status: 'normal', do: 6.2, ph: 7.4, temp: 26.8, ammonia: 0.32, manager: '张三' },
+    { id: 2, name: '2号塘', fish: '草鱼', area: '10亩', count: 45000, status: 'normal', do: 5.8, ph: 7.2, temp: 27.1, ammonia: 0.28, manager: '李四' },
+    { id: 3, name: '3号塘', fish: '鲈鱼', area: '15亩', count: 60000, status: 'warning', do: 2.3, ph: 7.8, temp: 26.5, ammonia: 0.45, manager: '张三' },
+    { id: 4, name: '4号塘', fish: '鲫鱼', area: '8亩', count: 30000, status: 'normal', do: 6.5, ph: 7.3, temp: 25.9, ammonia: 0.25, manager: '王五' },
+    { id: 5, name: '5号塘', fish: '南美白对虾', area: '20亩', count: 80000, status: 'warning', do: 5.5, ph: 9.2, temp: 27.5, ammonia: 0.38, manager: '赵六' },
+    { id: 6, name: '6号塘', fish: '鲈鱼', area: '12亩', count: 55000, status: 'normal', do: 6.0, ph: 7.5, temp: 26.2, ammonia: 0.30, manager: '张三' },
+    { id: 7, name: '7号塘', fish: '草鱼', area: '10亩', count: 40000, status: 'normal', do: 5.9, ph: 7.1, temp: 26.7, ammonia: 0.27, manager: '李四' },
+    { id: 8, name: '8号塘', fish: '鳜鱼', area: '15亩', count: 25000, status: 'normal', do: 6.3, ph: 7.6, temp: 25.8, ammonia: 0.29, manager: '王五' },
+    { id: 9, name: '9号塘', fish: '鳙鱼', area: '18亩', count: 35000, status: 'normal', do: 6.1, ph: 7.3, temp: 26.4, ammonia: 0.31, manager: '赵六' },
+    { id: 10, name: '10号塘', fish: '鲢鱼', area: '25亩', count: 42000, status: 'normal', do: 5.7, ph: 7.4, temp: 27.0, ammonia: 0.33, manager: '张三' },
+    { id: 11, name: '11号塘', fish: '黄颡鱼', area: '16亩', count: 38000, status: 'normal', do: 6.4, ph: 7.2, temp: 26.1, ammonia: 0.26, manager: '李四' },
+    { id: 12, name: '12号塘', fish: '罗氏沼虾', area: '22亩', count: 65000, status: 'danger', do: 1.8, ph: 8.8, temp: 28.2, ammonia: 0.52, manager: '王五' }
 ];
 
 const alertsMobile = [
-    { id: 1, level: 'danger', title: '3号塘溶解氧过低', desc: '当前溶解氧2.3mg/L，建议立即开启增氧机', time: '10分钟前' },
-    { id: 2, level: 'warning', title: '5号塘pH值异常', desc: '当前pH值9.2，超出正常范围', time: '25分钟前' },
-    { id: 3, level: 'warning', title: '1号塘水温偏高', desc: '当前水温32.5°C，请注意观察', time: '1小时前' }
+    { id: 1, level: 'danger', title: '3号塘溶解氧过低', desc: '当前溶解氧2.3mg/L，低于安全阈值3mg/L', time: '10分钟前' },
+    { id: 2, level: 'danger', title: '12号塘紧急告警', desc: '溶解氧1.8mg/L，已自动开启全部增氧机', time: '25分钟前' },
+    { id: 3, level: 'warning', title: '5号塘pH值异常', desc: '当前pH值9.2，超出正常范围6.5-8.5', time: '1小时前' },
+    { id: 4, level: 'warning', title: '12号塘水温偏高', desc: '当前水温28.2°C，请注意降温', time: '1小时前' },
+    { id: 5, level: 'warning', title: '投饵机-5离线', desc: '设备已离线2小时，请检查网络连接', time: '2小时前' },
+    { id: 6, level: 'info', title: '3号塘增氧机已开启', desc: '因溶解氧偏低，系统自动开启增氧机', time: '15分钟前' },
+    { id: 7, level: 'warning', title: '摄像头-8离线', desc: '设备已离线5小时，请检查供电', time: '5小时前' },
+    { id: 8, level: 'info', title: '今日投喂完成', desc: '1-4号塘早餐投喂已完成，共投喂1370kg', time: '今天 09:30' }
 ];
 
 const feedPlans = [
-    { time: '06:30', amount: '350kg', ponds: '1-4号塘', enabled: true },
-    { time: '12:00', amount: '400kg', ponds: '1-4号塘', enabled: true },
-    { time: '18:30', amount: '380kg', ponds: '全部塘口', enabled: true },
-    { time: '23:00', amount: '150kg', ponds: '5-8号塘', enabled: false }
+    { time: '06:30', amount: '1370kg', ponds: '1-4号塘', status: '已完成', enabled: true, type: '早餐' },
+    { time: '10:00', amount: '920kg', ponds: '5-8号塘', status: '进行中', enabled: true, type: '上午加餐' },
+    { time: '14:00', amount: '1250kg', ponds: '1-4号塘', status: '待执行', enabled: true, type: '午餐' },
+    { time: '18:00', amount: '2100kg', ponds: '全部塘口', status: '待执行', enabled: true, type: '晚餐' },
+    { time: '22:00', amount: '850kg', ponds: '5-12号塘', status: '待执行', enabled: false, type: '夜间补饲' }
 ];
 
 let currentPondId = 1;
