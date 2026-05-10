@@ -231,33 +231,30 @@
             <div class="logo-icon"><i class="bi bi-box-seam"></i></div>
             <div>
                 <div class="logo-text">超市管理系统</div>
-                <div style="font-size:11px;color:var(--text-muted);">智能仓储管理</div>
+                <div style="font-size:11px;color:var(--text-muted);">智慧零售管理</div>
             </div>
         </div>
         <div style="padding:15px 0;">
             <div class="nav-item active" onclick="showSection('dashboard')">
                 <i class="bi bi-grid-fill"></i><span>数据概览</span>
             </div>
+            <div class="nav-item" onclick="showSection('pos')">
+                <i class="bi bi-cash-coin"></i><span>收银台</span>
+            </div>
             <div class="nav-item" onclick="showSection('products')">
                 <i class="bi bi-box-seam"></i><span>商品管理</span>
             </div>
-            <div class="nav-item" onclick="showSection('inbound')">
-                <i class="bi bi-arrow-down-circle"></i><span>入库管理</span>
+            <div class="nav-item" onclick="showSection('members')">
+                <i class="bi bi-people"></i><span>会员管理</span>
             </div>
-            <div class="nav-item" onclick="showSection('outbound')">
-                <i class="bi bi-arrow-up-circle"></i><span>出库管理</span>
-            </div>
-            <div class="nav-item" onclick="showSection('inventory')">
-                <i class="bi bi-clipboard-check"></i><span>盘点管理</span>
-            </div>
-            <div class="nav-item" onclick="showSection('supplier')">
+            <div class="nav-item" onclick="showSection('suppliers')">
                 <i class="bi bi-truck"></i><span>供应商管理</span>
             </div>
-            <div class="nav-item" onclick="showSection('analytics')">
-                <i class="bi bi-bar-chart"></i><span>数据分析</span>
+            <div class="nav-item" onclick="showSection('orders')">
+                <i class="bi bi-receipt"></i><span>销售订单</span>
             </div>
-            <div class="nav-item" onclick="showSection('alerts')">
-                <i class="bi bi-bell"></i><span>会员数量</span>
+            <div class="nav-item" onclick="showSection('inventory')">
+                <i class="bi bi-clipboard-check"></i><span>库存盘点</span>
             </div>
             <div class="nav-item" onclick="showSection('settings')">
                 <i class="bi bi-gear"></i><span>系统设置</span>
@@ -443,6 +440,277 @@
         </div>
     </div>
 
+    <!-- 收银台 -->
+    <div id="pos" class="section">
+        <div class="row g-4">
+            <!-- 左侧面板 -->
+            <div class="col-md-8">
+                <div class="card" style="border:0;box-shadow:var(--shadow-card);">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0" style="font-weight:600;"><i class="bi bi-cash-coin me-2"></i>收银台</h5>
+                            <div class="d-flex align-items-center gap-3">
+                                <span id="currentTime" class="text-secondary" style="font-weight:600;font-size:18px;">00:00:00</span>
+                                <button class="btn btn-sm btn-outline-warning" onclick="holdOrder()">
+                                    <i class="bi bi-pause-circle"></i> 挂单 (F9)
+                                </button>
+                                <button class="btn btn-sm btn-outline-info" onclick="showHeldOrders()">
+                                    <i class="bi bi-list-ul"></i> 挂单列表
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 商品搜索 -->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
+                            <input type="text" id="barcodeInput" class="form-control" placeholder="输入条码/商品名，按Enter搜索..." 
+                                   onkeypress="if(event.keyCode==13)searchProduct(this.value)" autocomplete="off">
+                            <button class="btn btn-outline-secondary" onclick="toggleQuickPanel()">
+                                <i class="bi bi-grid-3x3"></i> 快捷商品
+                            </button>
+                        </div>
+                        
+                        <!-- 搜索结果 -->
+                        <div id="searchResultPanel" class="card mb-3" style="display:none;">
+                            <div class="card-body p-2">
+                                <div class="table-responsive">
+                                    <table class="table table-sm mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>商品名称</th>
+                                                <th>条码</th>
+                                                <th>价格</th>
+                                                <th>库存</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="searchResults"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 快捷商品面板 -->
+                        <div id="quickPanel" class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="mb-2"><i class="bi bi-lightning-charge text-warning"></i> 快捷商品</h6>
+                                <div class="row g-2" id="quickProducts"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 购物车 -->
+                        <div class="card" style="border:1px solid var(--border-color);">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span style="font-weight:600;"><i class="bi bi-cart3 me-1"></i> 购物车</span>
+                                <span class="badge bg-primary" id="cartCount">0 件</span>
+                            </div>
+                            <div class="card-body p-0" style="max-height:320px;overflow-y:auto;">
+                                <table class="table table-hover mb-0">
+                                    <thead style="position:sticky;top:0;background:var(--bg-primary);">
+                                        <tr>
+                                            <th>商品名称</th>
+                                            <th>单价</th>
+                                            <th>数量</th>
+                                            <th>小计</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cartItems">
+                                        <tr>
+                                            <td colspan="5" class="text-center py-5 text-muted">
+                                                <i class="bi bi-cart-x" style="font-size:48px;"></i>
+                                                <p class="mt-2">购物车为空，请扫描或添加商品</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-outline-danger" onclick="clearCart()">
+                                    <i class="bi bi-trash"></i> 清空购物车
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧面板 -->
+            <div class="col-md-4">
+                <!-- 会员信息 -->
+                <div class="card mb-3" style="border:0;box-shadow:var(--shadow-card);">
+                    <div class="card-body">
+                        <h6 class="mb-3" style="font-weight:600;"><i class="bi bi-person-badge text-primary"></i> 会员登录</h6>
+                        <div class="input-group mb-2">
+                            <input type="text" id="memberPhone" class="form-control" placeholder="输入手机号" maxlength="11">
+                            <button class="btn btn-primary" onclick="searchMember(document.getElementById('memberPhone').value)">
+                                登录
+                            </button>
+                        </div>
+                        <!-- 会员信息展示 -->
+                        <div id="memberInfo" style="display:none;">
+                            <div class="alert alert-success mb-2">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <strong id="memberName" class="d-block"></strong>
+                                        <span id="memberLevel" class="badge bg-warning"></span>
+                                    </div>
+                                    <button class="btn-close" onclick="clearMember()"></button>
+                                </div>
+                            </div>
+                            <div class="row g-2 text-center mb-2">
+                                <div class="col-6">
+                                    <div class="p-2 rounded" style="background:var(--bg-secondary);">
+                                        <div class="text-secondary small">积分</div>
+                                        <div id="memberPoints" class="fw-bold text-primary"></div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-2 rounded" style="background:var(--bg-secondary);">
+                                        <div class="text-secondary small">余额</div>
+                                        <div id="memberBalance" class="fw-bold text-success"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="checkbox" id="usePoints" onchange="calculateTotal()">
+                                <label class="form-check-label" for="usePoints">使用积分抵扣 (100积分=¥1)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="useBalance" onchange="calculateTotal()">
+                                <label class="form-check-label" for="useBalance">使用余额支付</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 金额汇总 -->
+                <div class="card mb-3" style="border:0;box-shadow:var(--shadow-card);">
+                    <div class="card-body">
+                        <h6 class="mb-3" style="font-weight:600;"><i class="bi bi-calculator text-info"></i> 金额汇总</h6>
+                        <table class="table table-sm mb-3">
+                            <tr>
+                                <td>商品数量</td>
+                                <td class="text-end fw-bold" id="totalItems">0 件</td>
+                            </tr>
+                            <tr>
+                                <td>商品总价</td>
+                                <td class="text-end" id="subtotal">¥0.00</td>
+                            </tr>
+                            <tr>
+                                <td>会员折扣</td>
+                                <td class="text-end text-success" id="memberDiscount">-¥0.00</td>
+                            </tr>
+                            <tr>
+                                <td>积分抵扣</td>
+                                <td class="text-end text-success" id="pointsDiscount">-¥0.00</td>
+                            </tr>
+                            <tr>
+                                <td>余额抵扣</td>
+                                <td class="text-end text-success" id="balanceDiscount">-¥0.00</td>
+                            </tr>
+                            <tr class="table-active">
+                                <td><strong>应收金额</strong></td>
+                                <td class="text-end text-danger fs-5" id="totalAmount"><strong>¥0.00</strong></td>
+                            </tr>
+                        </table>
+                        
+                        <!-- 支付方式 -->
+                        <h6 class="mb-2"><i class="bi bi-credit-card text-warning"></i> 支付方式</h6>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-success" onclick="checkout('微信支付')" style="padding:12px;">
+                                <i class="bi bi-wechat me-2"></i><strong>微信支付</strong>
+                            </button>
+                            <button class="btn btn-primary" onclick="checkout('支付宝')" style="padding:12px;">
+                                <i class="bi bi-alipay me-2"></i><strong>支付宝</strong>
+                            </button>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <button class="btn btn-outline-secondary w-100" onclick="checkout('现金')">
+                                        <i class="bi bi-cash"></i> 现金
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-outline-secondary w-100" onclick="checkout('银行卡')">
+                                        <i class="bi bi-credit-card"></i> 刷卡
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 操作提示 -->
+                <div class="card" style="border:0;box-shadow:var(--shadow-card);">
+                    <div class="card-body">
+                        <h6 class="mb-2"><i class="bi bi-keyboard text-secondary"></i> 快捷键</h6>
+                        <div class="small text-secondary">
+                            <div class="d-flex justify-content-between">
+                                <span>F9</span><span>挂单</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Enter</span><span>搜索商品</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>+/-</span><span>调整数量</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 收银小票弹窗 -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-receipt me-2"></i>收银小票</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <h6><strong>超市管理系统</strong></h6>
+                        <p class="text-secondary small mb-1">智慧零售 · 便捷生活</p>
+                        <p class="text-secondary small" id="receiptTime">2024-05-12 15:30:00</p>
+                    </div>
+                    <div class="border-top border-bottom py-2 mb-2">
+                        <div id="receiptItems"></div>
+                    </div>
+                    <table class="table table-sm mb-3">
+                        <tr>
+                            <td>商品数量</td>
+                            <td class="text-end" id="receiptItemsCount">0 件</td>
+                        </tr>
+                        <tr>
+                            <td>商品总价</td>
+                            <td class="text-end" id="receiptSubtotal">¥0.00</td>
+                        </tr>
+                        <tr>
+                            <td>优惠金额</td>
+                            <td class="text-end text-success" id="receiptDiscount">-¥0.00</td>
+                        </tr>
+                        <tr class="table-active">
+                            <td><strong>实收金额</strong></td>
+                            <td class="text-end text-danger" id="receiptTotal"><strong>¥0.00</strong></td>
+                        </tr>
+                    </table>
+                    <div class="text-center">
+                        <p class="mb-1"><strong>支付方式：</strong><span id="receiptPayment">微信支付</span></p>
+                        <p class="text-secondary small mb-0">感谢惠顾，欢迎下次光临！</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="printReceipt()">
+                        <i class="bi bi-printer me-2"></i>打印小票
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 商品管理 -->
     <div id="products" class="section">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
@@ -573,13 +841,175 @@
         </div>
     </div>
 
-    <!-- 入库管理 -->
-    <div id="inbound" class="section">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="mb-0" style="font-weight:600;color:var(--text-primary);">入库管理</h5>
-            <button class="btn btn-primary" onclick="alert('新增入库单')">
-                <i class="bi bi-plus-lg me-2"></i>新增入库
-            </button>
+    <!-- 会员管理 -->
+    <div id="members" class="section">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <h5 class="mb-0" style="font-weight:600;color:var(--text-primary);">会员管理</h5>
+            <div class="d-flex gap-2">
+                <input type="text" class="form-control" style="width:250px;" placeholder="搜索会员姓名/手机号...">
+                <button class="btn btn-primary" onclick="alert('新增会员')">
+                    <i class="bi bi-plus-lg me-2"></i>新增会员
+                </button>
+            </div>
+        </div>
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="stat-value">1,256</div>
+                        <div class="stat-label">会员总数</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="stat-value text-primary">钻石会员: 128</div>
+                        <div class="stat-label">黄金会员: 356 · 白银: 520</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="stat-value">¥89,520</div>
+                        <div class="stat-label">储值余额总额</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="stat-value">3,256,800</div>
+                        <div class="stat-label">累计积分总额</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="memberListTable">
+                        <thead>
+                            <tr>
+                                <th>会员编号</th>
+                                <th>姓名</th>
+                                <th>手机号</th>
+                                <th>会员等级</th>
+                                <th>积分</th>
+                                <th>余额</th>
+                                <th>累计消费</th>
+                                <th>注册时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="memberList"></tbody>
+                    </table>
+                </div>
+                <nav class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled"><span class="page-link" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);">上一页</span></li>
+                        <li class="page-item active"><span class="page-link" style="background:linear-gradient(135deg,#10b981,#3b82f6);border-color:#10b981;">1</span></li>
+                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);color:var(--text-secondary);">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);color:var(--text-secondary);">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);color:var(--text-secondary);">下一页</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- 供应商管理 -->
+    <div id="suppliers" class="section">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <h5 class="mb-0" style="font-weight:600;color:var(--text-primary);">供应商管理</h5>
+            <div class="d-flex gap-2">
+                <input type="text" class="form-control" style="width:250px;" placeholder="搜索供应商名称...">
+                <button class="btn btn-primary" onclick="alert('新增供应商')">
+                    <i class="bi bi-plus-lg me-2"></i>新增供应商
+                </button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="supplierListTable">
+                        <thead>
+                            <tr>
+                                <th>供应商编号</th>
+                                <th>供应商名称</th>
+                                <th>联系人</th>
+                                <th>联系电话</th>
+                                <th>供货类别</th>
+                                <th>商品数</th>
+                                <th>最后供货</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="supplierList"></tbody>
+                    </table>
+                </div>
+                <nav class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled"><span class="page-link" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);">上一页</span></li>
+                        <li class="page-item active"><span class="page-link" style="background:linear-gradient(135deg,#10b981,#3b82f6);border-color:#10b981;">1</span></li>
+                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);color:var(--text-secondary);">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);color:var(--text-secondary);">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);color:var(--text-secondary);">下一页</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- 订单管理 -->
+    <div id="orders" class="section">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <h5 class="mb-0" style="font-weight:600;color:var(--text-primary);">销售订单</h5>
+            <div class="d-flex gap-2">
+                <input type="text" class="form-control" style="width:250px;" placeholder="搜索订单号...">
+                <select class="form-select" style="width:150px;">
+                    <option>全部状态</option>
+                    <option>已完成</option>
+                    <option>已退款</option>
+                </select>
+            </div>
+        </div>
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="stat-value">¥12,580</div>
+                        <div class="stat-label">今日销售额</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="stat-value">86</div>
+                        <div class="stat-label">今日订单数</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="stat-value">¥146.28</div>
+                        <div class="stat-label">客单价</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="stat-value">68.5%</div>
+                        <div class="stat-label">会员占比</div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="card">
             <div class="card-body">
@@ -587,71 +1017,25 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>入库单号</th>
-                                <th>商品名称</th>
-                                <th>数量</th>
-                                <th>供应商</th>
-                                <th>入库时间</th>
-                                <th>操作人</th>
-                                <th>状态</th>
+                                <th>订单号</th>
+                                <th>时间</th>
+                                <th>商品数</th>
+                                <th>金额</th>
+                                <th>支付方式</th>
+                                <th>收银员</th>
+                                <th>会员</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td style="font-weight:500;color:var(--text-primary);">#IN20240512001</td>
-                                <td>华为Mate 60 Pro</td>
-                                <td>50</td>
-                                <td>华为官方旗舰店</td>
-                                <td>2024-05-12 14:30</td>
-                                <td>张仓库</td>
-                                <td><span class="badge" style="background:rgba(16,185,129,0.2);color:#34d399;">已完成</span></td>
-                                <td><button class="btn btn-sm btn-outline-light">详情</button></td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight:500;color:var(--text-primary);">#IN20240512002</td>
-                                <td>AirPods Pro 2代</td>
-                                <td>100</td>
-                                <td>苹果授权经销商</td>
-                                <td>2024-05-12 09:45</td>
-                                <td>张仓库</td>
-                                <td><span class="badge" style="background:rgba(16,185,129,0.2);color:#34d399;">已完成</span></td>
-                                <td><button class="btn btn-sm btn-outline-light">详情</button></td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight:500;color:var(--text-primary);">#IN20240511001</td>
-                                <td>A4打印纸</td>
-                                <td>500</td>
-                                <td>晨光文具</td>
-                                <td>2024-05-11 16:20</td>
-                                <td>李主管</td>
-                                <td><span class="badge" style="background:rgba(16,185,129,0.2);color:#34d399;">已完成</span></td>
-                                <td><button class="btn btn-sm btn-outline-light">详情</button></td>
-                            </tr>
-                        </tbody>
+                        <tbody id="orderList"></tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 出库管理 -->
-    <div id="outbound" class="section">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="mb-0" style="font-weight:600;color:var(--text-primary);">出库管理</h5>
-            <button class="btn btn-primary" onclick="alert('新增出库单')">
-                <i class="bi bi-plus-lg me-2"></i>新增出库
-            </button>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>出库单号</th>
-                                <th>商品名称</th>
-                                <th>数量</th>
+    <!-- 出库管理 - 替换成订单管理后，这里需要删除多余的出库管理section -->
+    <!-- 出库管理section已移除 - 替换为供应商管理和订单管理 -->
                                 <th>领用部门</th>
                                 <th>出库时间</th>
                                 <th>操作人</th>
