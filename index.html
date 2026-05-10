@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智慧养殖系统 - 大规模水产养殖智能化管理</title>
+    <title>010-项目区 - 原型展示中心</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -20,214 +20,304 @@
         }
 
         .hero-section {
-            padding: 80px 20px 60px;
+            padding: 60px 20px 40px;
             text-align: center;
         }
 
         .logo {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 30px;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border-radius: 24px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
+            font-size: 40px;
             box-shadow: 0 10px 40px rgba(37, 99, 235, 0.3);
         }
 
         .title {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 700;
             background: linear-gradient(135deg, #60a5fa, #a78bfa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .subtitle {
             color: #94a3b8;
-            font-size: 16px;
-            margin-bottom: 40px;
+            font-size: 15px;
+            margin-bottom: 30px;
         }
 
-        .version-card {
+        .project-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .project-card {
             background: rgba(30, 41, 59, 0.8);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            border-radius: 16px;
+            padding: 24px;
             margin-bottom: 20px;
+            transition: all 0.3s ease;
         }
 
-        .version-card:hover {
-            transform: translateY(-5px);
+        .project-card:hover {
+            transform: translateY(-3px);
             border-color: var(--primary-color);
-            box-shadow: 0 10px 40px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
         }
 
-        .version-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 20px;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-        }
-
-        .version-icon.desktop {
-            background: rgba(37, 99, 235, 0.2);
-            color: #60a5fa;
-        }
-
-        .version-icon.mobile {
-            background: rgba(124, 58, 237, 0.2);
-            color: #a78bfa;
-        }
-
-        .version-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .version-desc {
-            color: #94a3b8;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .version-btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            border-radius: 12px;
-            padding: 12px 30px;
-            color: white;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .version-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .features {
-            padding: 40px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .feature-item {
+        .project-header {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 15px 20px;
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
-        .feature-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+        .project-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 24px;
             flex-shrink: 0;
         }
 
-        .feature-text {
-            font-size: 15px;
+        .project-info {
+            flex: 1;
+        }
+
+        .project-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .project-desc {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .project-badge {
+            background: rgba(96, 165, 250, 0.15);
+            color: #60a5fa;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .version-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .version-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .version-btn.desktop {
+            background: rgba(37, 99, 235, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+        }
+
+        .version-btn.desktop:hover {
+            background: rgba(37, 99, 235, 0.25);
+        }
+
+        .version-btn.mobile {
+            background: rgba(124, 58, 237, 0.15);
+            color: #a78bfa;
+            border: 1px solid rgba(167, 139, 250, 0.2);
+        }
+
+        .version-btn.mobile:hover {
+            background: rgba(124, 58, 237, 0.25);
         }
 
         .footer {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
             color: #64748b;
             font-size: 13px;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
+
+        .project-icon-003 { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .project-icon-004 { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .project-icon-005 { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .project-icon-006 { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+        .project-icon-007 { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        .project-icon-012 { background: rgba(236, 72, 153, 0.2); color: #ec4899; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="hero-section">
             <div class="logo">
-                <i class="bi bi-water"></i>
+                <i class="bi bi-folder2-open"></i>
             </div>
-            <h1 class="title">智慧养殖系统</h1>
-            <p class="subtitle">大规模水产养殖智能化管理平台</p>
+            <h1 class="title">010-项目区</h1>
+            <p class="subtitle">产品原型展示中心 · 多项目统一管理</p>
         </div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-5">
-                <div class="version-card" onclick="location.href='admin.html'">
-                    <div class="version-icon desktop">
-                        <i class="bi bi-pc-display"></i>
+        <div class="project-grid">
+            <!-- 003-水产养殖系统 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon project-icon-003">
+                        <i class="bi bi-water"></i>
                     </div>
-                    <div class="version-title">PC管理后台</div>
-                    <div class="version-desc">完整功能 · 数据大屏 · 系统配置</div>
-                    <button class="version-btn">
-                        <i class="bi bi-box-arrow-up-right me-2"></i>进入管理后台
-                    </button>
+                    <div class="project-info">
+                        <div class="project-name">003-智慧养殖系统</div>
+                        <div class="project-desc">大规模水产养殖智能化管理平台</div>
+                    </div>
+                    <span class="project-badge">已上线</span>
+                </div>
+                <div class="version-buttons">
+                    <a href="003/admin.html" class="version-btn desktop">
+                        <i class="bi bi-pc-display"></i>PC管理后台
+                    </a>
+                    <a href="003/mobile.html" class="version-btn mobile">
+                        <i class="bi bi-phone"></i>移动端H5
+                    </a>
                 </div>
             </div>
-            <div class="col-md-5">
-                <div class="version-card" onclick="location.href='mobile.html'">
-                    <div class="version-icon mobile">
-                        <i class="bi bi-phone"></i>
-                    </div>
-                    <div class="version-title">移动端H5</div>
-                    <div class="version-desc">手机适配 · 快捷操作 · 随时随地监控</div>
-                    <button class="version-btn">
-                        <i class="bi bi-box-arrow-up-right me-2"></i>进入移动端
-                    </button>
-                </div>
-            </div>
-        </div>
 
-        <div class="features">
-            <h3 class="text-center mb-4" style="color: #94a3b8; font-size: 16px;">平台核心功能</h3>
-            <div class="feature-item">
-                <div class="feature-icon" style="background: rgba(96, 165, 250, 0.2); color: #60a5fa;">
-                    <i class="bi bi-droplet"></i>
+            <!-- 004-家庭生活管家 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon project-icon-004">
+                        <i class="bi bi-house-heart"></i>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-name">004-家庭生活管家</div>
+                        <div class="project-desc">家庭日常事务智能管理系统</div>
+                    </div>
+                    <span class="project-badge">原型中</span>
                 </div>
-                <div class="feature-text">实时水质监测 · 溶解氧/pH/水温/氨氮 24小时监控</div>
+                <div class="version-buttons">
+                    <a href="004/admin.html" class="version-btn desktop">
+                        <i class="bi bi-pc-display"></i>PC管理后台
+                    </a>
+                    <a href="004/mobile.html" class="version-btn mobile">
+                        <i class="bi bi-phone"></i>移动端H5
+                    </a>
+                </div>
             </div>
-            <div class="feature-item">
-                <div class="feature-icon" style="background: rgba(52, 211, 153, 0.2); color: #34d399;">
-                    <i class="bi bi-basket"></i>
+
+            <!-- 005-会员积分系统 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon project-icon-005">
+                        <i class="bi bi-coin"></i>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-name">005-会员积分系统</div>
+                        <div class="project-desc">多渠道会员积分统一管理平台</div>
+                    </div>
+                    <span class="project-badge">原型中</span>
                 </div>
-                <div class="feature-text">智能投喂系统 · 定时定量 · 一键投喂</div>
+                <div class="version-buttons">
+                    <a href="005/admin.html" class="version-btn desktop">
+                        <i class="bi bi-pc-display"></i>PC管理后台
+                    </a>
+                    <a href="005/mobile.html" class="version-btn mobile">
+                        <i class="bi bi-phone"></i>移动端H5
+                    </a>
+                </div>
             </div>
-            <div class="feature-item">
-                <div class="feature-icon" style="background: rgba(167, 139, 250, 0.2); color: #a78bfa;">
-                    <i class="bi bi-fish"></i>
+
+            <!-- 006-电商订单管理 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon project-icon-006">
+                        <i class="bi bi-bag-check"></i>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-name">006-电商订单管理</div>
+                        <div class="project-desc">全渠道订单统一处理系统</div>
+                    </div>
+                    <span class="project-badge">原型中</span>
                 </div>
-                <div class="feature-text">全周期养殖管理 · 批次追踪 · 生长记录</div>
+                <div class="version-buttons">
+                    <a href="006/admin.html" class="version-btn desktop">
+                        <i class="bi bi-pc-display"></i>PC管理后台
+                    </a>
+                    <a href="006/mobile.html" class="version-btn mobile">
+                        <i class="bi bi-phone"></i>移动端H5
+                    </a>
+                </div>
             </div>
-            <div class="feature-item">
-                <div class="feature-icon" style="background: rgba(251, 191, 36, 0.2); color: #fbbf24;">
-                    <i class="bi bi-shield-check"></i>
+
+            <!-- 007-库存管理系统 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon project-icon-007">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-name">007-库存管理系统</div>
+                        <div class="project-desc">智能仓储与库存优化平台</div>
+                    </div>
+                    <span class="project-badge">原型中</span>
                 </div>
-                <div class="feature-text">AI病害预警 · 异常告警 · 远程设备控制</div>
+                <div class="version-buttons">
+                    <a href="007/admin.html" class="version-btn desktop">
+                        <i class="bi bi-pc-display"></i>PC管理后台
+                    </a>
+                    <a href="007/mobile.html" class="version-btn mobile">
+                        <i class="bi bi-phone"></i>移动端H5
+                    </a>
+                </div>
             </div>
-            <div class="feature-item">
-                <div class="feature-icon" style="background: rgba(239, 68, 68, 0.2); color: #ef4444;">
-                    <i class="bi bi-graph-up"></i>
+
+            <!-- 012-数据可视化平台 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon project-icon-012">
+                        <i class="bi bi-bar-chart-line"></i>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-name">012-数据可视化平台</div>
+                        <div class="project-desc">企业级BI数据可视化分析平台</div>
+                    </div>
+                    <span class="project-badge">原型中</span>
                 </div>
-                <div class="feature-text">数据分析报表 · 产量预测 · 成本收益分析</div>
+                <div class="version-buttons">
+                    <a href="012/admin.html" class="version-btn desktop">
+                        <i class="bi bi-pc-display"></i>PC管理后台
+                    </a>
+                    <a href="012/mobile.html" class="version-btn mobile">
+                        <i class="bi bi-phone"></i>移动端H5
+                    </a>
+                </div>
             </div>
         </div>
 
         <div class="footer">
-            <p>智慧养殖系统 v1.0 · 大规模水产养殖智能化解决方案</p>
+            <p>010-项目区 · 产品原型展示中心</p>
             <p class="mt-2">
                 <i class="bi bi-github me-1"></i>
                 <a href="https://github.com/yuj1nfeng/boss" target="_blank" style="color: #64748b;">yuj1nfeng/boss</a>
