@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>自媒体内容运营平台 - 移动端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #f5576c;
+            --secondary-color: #f093fb;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --text-secondary: #94a3b8;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            color: #f1f5f9;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding-bottom: 80px;
+        }
+        .page {
+            display: none;
+            padding: 15px;
+        }
+        .page.active {
+            display: block;
+        }
+        .header {
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            margin-bottom: 15px;
+            border: none;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        .list-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .list-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .list-title {
+            font-weight: 500;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .list-meta {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        .nav-btn.active {
+            color: var(--primary-color);
+        }
+        .nav-btn i {
+            font-size: 22px;
+        }
+        .fab {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+            cursor: pointer;
+            z-index: 999;
+            border: none;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .platform-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        .status-published {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        .status-draft {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        .status-scheduled {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+        .quick-action {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .action-item {
+            text-align: center;
+            cursor: pointer;
+        }
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .action-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 36px;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .menu-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .menu-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .todo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .search-box {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 100%;
+            outline: none;
+        }
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        .filter-tab {
+            padding: 6px 14px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .filter-tab.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 18px;
+            height: 18px;
+            background: #ef4444;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span class="header-title"><i class="bi bi-pencil-square me-2"></i>内容运营</span>
+        <div style="position: relative;">
+            <i class="bi bi-bell" style="cursor: pointer;"></i>
+            <span class="notification-badge">5</span>
+        </div>
+    </div>
+
+    <!-- 首页 -->
+    <div id="home" class="page active">
+        <!-- 统计卡片 -->
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-value">128.5K</div>
+                <div class="stat-label">总阅读量</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">156</div>
+                <div class="stat-label">已发布</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">8,432</div>
+                <div class="stat-label">总粉丝</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3,241</div>
+                <div class="stat-label">互动数</div>
+            </div>
+        </div>
+
+        <!-- 快捷操作 -->
+        <div class="section-title">快捷操作</div>
+        <div class="quick-action">
+            <div class="action-item" onclick="alert('新建内容功能开发中...')">
+                <div class="action-icon"><i class="bi bi-plus-lg" style="color: #f5576c;"></i></div>
+                <div class="action-label">写文章</div>
+            </div>
+            <div class="action-item" onclick="alert('AI选题功能开发中...')">
+                <div class="action-icon"><i class="bi bi-lightbulb" style="color: #f093fb;"></i></div>
+                <div class="action-label">AI选题</div>
+            </div>
+            <div class="action-item" onclick="alert('内容排期功能开发中...')">
+                <div class="action-icon"><i class="bi bi-calendar3" style="color: #3b82f6;"></i></div>
+                <div class="action-label">排期</div>
+            </div>
+            <div class="action-item" onclick="alert('数据统计功能开发中...')">
+                <div class="action-icon"><i class="bi bi-bar-chart" style="color: #10b981;"></i></div>
+                <div class="action-label">数据</div>
+            </div>
+        </div>
+
+        <!-- 待办事项 -->
+        <div class="card">
+            <div style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: 600;">
+                <i class="bi bi-list-check me-2"></i>待办事项
+            </div>
+            <div class="todo-item">
+                <div class="todo-dot" style="background: #ef4444;"></div>
+                <div>
+                    <div style="font-weight: 500; font-size: 14px;">23条新评论待回复</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">知乎 · 公众号</div>
+                </div>
+            </div>
+            <div class="todo-item">
+                <div class="todo-dot" style="background: #f59e0b;"></div>
+                <div>
+                    <div style="font-weight: 500; font-size: 14px;">3篇内容今日发布</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">09:00 / 12:00 / 18:00</div>
+                </div>
+            </div>
+            <div class="todo-item">
+                <div class="todo-dot" style="background: #3b82f6;"></div>
+                <div>
+                    <div style="font-weight: 500; font-size: 14px;">5个AI选题建议待查看</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">基于数据分析生成</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 最近发布 -->
+        <div class="card">
+            <div style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+                <span><i class="bi bi-clock-history me-2"></i>最近发布</span>
+                <span style="font-size: 12px; color: var(--text-secondary); cursor: pointer;">查看全部</span>
+            </div>
+            <div class="list-item">
+                <div class="list-icon">📝</div>
+                <div class="list-content">
+                    <div class="list-title">2024年自媒体运营的5个关键趋势</div>
+                    <div class="list-meta">2小时前 · 阅读 1,234</div>
+                </div>
+                <span class="platform-badge" style="background: rgba(0, 102, 255, 0.2); color: #0066ff;">知乎</span>
+            </div>
+            <div class="list-item">
+                <div class="list-icon">📝</div>
+                <div class="list-content">
+                    <div class="list-title">如何用AI工具提升内容创作效率</div>
+                    <div class="list-meta">5小时前 · 阅读 2,456</div>
+                </div>
+                <span class="platform-badge" style="background: rgba(0, 0, 0, 0.2); color: #000;">公众号</span>
+            </div>
+            <div class="list-item">
+                <div class="list-icon">📝</div>
+                <div class="list-content">
+                    <div class="list-title">小红书爆款文案写作技巧分享</div>
+                    <div class="list-meta">明天 09:00 发布</div>
+                </div>
+                <span class="status-badge status-scheduled">待发布</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 内容列表页 -->
+    <div id="content" class="page">
+        <div class="search-box">
+            <i class="bi bi-search" style="color: var(--text-secondary);"></i>
+            <input type="text" placeholder="搜索内容...">
+        </div>
+        <div class="filter-tabs">
+            <div class="filter-tab active">全部</div>
+            <div class="filter-tab">已发布</div>
+            <div class="filter-tab">待发布</div>
+            <div class="filter-tab">草稿</div>
+            <div class="filter-tab">公众号</div>
+            <div class="filter-tab">知乎</div>
+        </div>
+        <div class="card">
+            <div class="list-item">
+                <div class="list-icon">📝</div>
+                <div class="list-content">
+                    <div class="list-title">2024年自媒体运营的5个关键趋势</div>
+                    <div class="list-meta">2024-05-08 · 已发布</div>
+                </div>
+                <span class="status-badge status-published">已发布</span>
+            </div>
+            <div class="list-item">
+                <div class="list-icon">📝</div>
+                <div class="list-content">
+                    <div class="list-title">如何用AI工具提升内容创作效率</div>
+                    <div class="list-meta">2024-05-07 · 已发布</div>
+                </div>
+                <span class="status-badge status-published">已发布</span>
+            </div>
+            <div class="list-item">
+                <div class="list-icon">📝</div>
+                <div class="list-content">
+                    <div class="list-title">小红书爆款文案写作技巧分享</div>
+                    <div class="list-meta">2024-05-06 · 待发布</div>
+                </div>
+                <span class="status-badge status-scheduled">待发布</span>
+            </div>
+            <div class="list-item">
+                <div class="list-icon">📝</div>
+                <div class="list-content">
+                    <div class="list-title">Bilibili视频创作流程全解析</div>
+                    <div class="list-meta">2024-05-05 · 草稿</div>
+                </div>
+                <span class="status-badge status-draft">草稿</span>
+            </div>
+            <div class="list-item">
+                <div class="list-icon">📝</div>
+                <div class="list-content">
+                    <div class="list-title">内容创作者的时间管理方法</div>
+                    <div class="list-meta">2024-05-04 · 已发布</div>
+                </div>
+                <span class="status-badge status-published">已发布</span>
+            </div>
+            <div class="list-item">
+                <div class="list-icon">📝</div>
+                <div class="list-content">
+                    <div class="list-title">如何打造个人IP的完整指南</div>
+                    <div class="list-meta">2024-05-03 · 草稿</div>
+                </div>
+                <span class="status-badge status-draft">草稿</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数据页 -->
+    <div id="data" class="page">
+        <div class="card" style="padding: 15px;">
+            <div class="section-title"><i class="bi bi-graph-up-arrow" style="color: #f5576c;"></i>今日数据概览</div>
+            <div class="row g-3">
+                <div class="col-6">
+                    <div style="text-align: center; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px;">
+                        <div style="font-size: 24px; font-weight: 700; color: #10b981;">18,234</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">今日阅读</div>
+                        <div style="font-size: 11px; color: #10b981; margin-top: 5px;">↑ 23.5%</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div style="text-align: center; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px;">
+                        <div style="font-size: 24px; font-weight: 700; color: #3b82f6;">156</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">新增粉丝</div>
+                        <div style="font-size: 11px; color: #10b981; margin-top: 5px;">↑ 12.3%</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div style="text-align: center; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px;">
+                        <div style="font-size: 24px; font-weight: 700; color: #f59e0b;">423</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">互动数</div>
+                        <div style="font-size: 11px; color: #10b981; margin-top: 5px;">↑ 8.7%</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div style="text-align: center; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px;">
+                        <div style="font-size: 24px; font-weight: 700; color: #ec4899;">5</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">发布数</div>
+                        <div style="font-size: 11px; color: var(--text-secondary); margin-top: 5px;">本周</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: 600;">
+                <i class="bi bi-trophy me-2"></i>热门内容 Top 3
+            </div>
+            <div class="list-item">
+                <div style="width: 24px; height: 24px; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #000;">1</div>
+                <div class="list-content">
+                    <div class="list-title">如何用AI工具提升内容创作效率</div>
+                    <div class="list-meta">阅读 2,456 · 点赞 156</div>
+                </div>
+            </div>
+            <div class="list-item">
+                <div style="width: 24px; height: 24px; background: linear-gradient(135deg, #94a3b8, #64748b); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff;">2</div>
+                <div class="list-content">
+                    <div class="list-title">2024年自媒体运营的5个关键趋势</div>
+                    <div class="list-meta">阅读 1,834 · 点赞 98</div>
+                </div>
+            </div>
+            <div class="list-item">
+                <div style="width: 24px; height: 24px; background: linear-gradient(135deg, #cd7f32, #a0522d); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff;">3</div>
+                <div class="list-content">
+                    <div class="list-title">内容创作者的时间管理方法</div>
+                    <div class="list-meta">阅读 1,567 · 点赞 76</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 我的页面 -->
+    <div id="profile" class="page">
+        <div class="card" style="padding: 30px 20px; text-align: center; margin-bottom: 20px;">
+            <div class="avatar"><i class="bi bi-person"></i></div>
+            <div style="font-size: 20px; font-weight: 600;">内容创作者</div>
+            <div style="color: var(--text-secondary); font-size: 14px; margin-top: 5px;">自媒体内容运营平台</div>
+            <div style="display: flex; justify-content: center; gap: 30px; margin-top: 20px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 18px; font-weight: 600;">156</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">文章</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 18px; font-weight: 600;">8,432</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">粉丝</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 18px; font-weight: 600;">128.5K</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">阅读</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="menu-item" onclick="alert('素材库功能开发中...')">
+                <div class="menu-left">
+                    <div class="menu-icon" style="background: rgba(59, 130, 246, 0.2); color: #3b82f6;"><i class="bi bi-folder2-open"></i></div>
+                    <span>我的素材库</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color: var(--text-secondary);"></i>
+            </div>
+            <div class="menu-item" onclick="alert('平台管理功能开发中...')">
+                <div class="menu-left">
+                    <div class="menu-icon" style="background: rgba(139, 92, 246, 0.2); color: #8b5cf6;"><i class="bi bi-collection"></i></div>
+                    <span>平台管理</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color: var(--text-secondary);"></i>
+            </div>
+            <div class="menu-item" onclick="alert('评论管理功能开发中...')">
+                <div class="menu-left">
+                    <div class="menu-icon" style="background: rgba(236, 72, 153, 0.2); color: #ec4899;"><i class="bi bi-chat-dots"></i></div>
+                    <span>评论管理</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color: var(--text-secondary);"></i>
+            </div>
+            <div class="menu-item" onclick="alert('数据导出功能开发中...')">
+                <div class="menu-left">
+                    <div class="menu-icon" style="background: rgba(16, 185, 129, 0.2); color: #10b981;"><i class="bi bi-download"></i></div>
+                    <span>数据导出</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color: var(--text-secondary);"></i>
+            </div>
+            <div class="menu-item" onclick="alert('设置功能开发中...')">
+                <div class="menu-left">
+                    <div class="menu-icon" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;"><i class="bi bi-gear"></i></div>
+                    <span>系统设置</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color: var(--text-secondary);"></i>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="menu-item" onclick="window.location.href='intro.html'">
+                <div class="menu-left">
+                    <div class="menu-icon" style="background: rgba(245, 87, 108, 0.2); color: #f5576c;"><i class="bi bi-info-circle"></i></div>
+                    <span>产品介绍</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color: var(--text-secondary);"></i>
+            </div>
+            <div class="menu-item" onclick="window.location.href='../index.html'">
+                <div class="menu-left">
+                    <div class="menu-icon" style="background: rgba(100, 116, 139, 0.2); color: #64748b;"><i class="bi bi-grid"></i></div>
+                    <span>返回项目列表</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color: var(--text-secondary);"></i>
+            </div>
+        </div>
+    </div>
+
+    <button class="fab" onclick="alert('新建内容功能开发中...')"><i class="bi bi-plus-lg"></i></button>
+
+    <div class="bottom-nav">
+        <div class="nav-btn active" onclick="showPage('home')">
+            <i class="bi bi-house"></i>
+            <span>首页</span>
+        </div>
+        <div class="nav-btn" onclick="showPage('content')">
+            <i class="bi bi-file-earmark-text"></i>
+            <span>内容</span>
+        </div>
+        <div class="nav-btn" onclick="showPage('data')">
+            <i class="bi bi-bar-chart-line"></i>
+            <span>数据</span>
+        </div>
+        <div class="nav-btn" onclick="showPage('profile')">
+            <i class="bi bi-person"></i>
+            <span>我的</span>
+        </div>
+    </div>
+
+    <script src="mobile.js"></script>
+</body>
+</html>

@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班级管理与家校沟通平台 - 教师端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            position: fixed;
+            left: 0; top: 0;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            width: 45px; height: 45px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+        }
+        .nav-menu { padding: 15px; }
+        .nav-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 15px; margin-bottom: 5px;
+            border-radius: 10px; cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+        .nav-item:hover, .nav-item.active {
+            background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2));
+            color: var(--text-primary);
+            transform: translateX(5px);
+        }
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        .main-content {
+            margin-left: 260px;
+            padding: 25px;
+            min-height: 100vh;
+        }
+        .top-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px; padding: 15px 20px;
+            background: rgba(30,41,59,0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .page-title {
+            font-size: 24px; font-weight: 600;
+            background: linear-gradient(135deg, #818cf8, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card {
+            background: rgba(30,41,59,0.9);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(99,102,241,0.2);
+        }
+        .stat-card {
+            background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative; overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute; top: -50%; right: -50%;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+        .stat-value {
+            font-size: 32px; font-weight: 700;
+            background: linear-gradient(135deg, #818cf8, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px; margin-top: 5px;
+            font-weight: 500;
+        }
+        .stat-icon {
+            width: 50px; height: 50px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+        }
+        .data-table { width: 100%; }
+        .data-table th {
+            background: rgba(99,102,241,0.1);
+            color: var(--text-primary);
+            border: none; padding: 12px 15px;
+        }
+        .data-table td {
+            border-color: rgba(255,255,255,0.05);
+            padding: 12px 15px;
+            color: var(--text-secondary);
+        }
+        .data-table tr:hover td { background: rgba(255,255,255,0.03); }
+        .status-badge {
+            padding: 5px 12px; border-radius: 20px;
+            font-size: 12px; font-weight: 500;
+        }
+        .status-normal { background: rgba(16,185,129,0.2); color: #34d399; }
+        .status-warning { background: rgba(245,158,11,0.2); color: #fbbf24; }
+        .status-danger { background: rgba(239,68,68,0.2); color: #f87171; }
+        .status-info { background: rgba(59,130,246,0.2); color: #60a5fa; }
+        .status-pending { background: rgba(107,114,128,0.2); color: #9ca3af; }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none; border-radius: 10px;
+            padding: 10px 20px; transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(99,102,241,0.4);
+        }
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .section.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-control, .form-select {
+            background: rgba(15,23,42,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            border-radius: 10px;
+        }
+        .form-control:focus, .form-select:focus {
+            background: rgba(15,23,42,0.9);
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 0.25rem rgba(99,102,241,0.25);
+        }
+        .progress {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px; height: 8px;
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+        }
+        .modal-content {
+            background: rgba(30,41,59,0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+        }
+        .modal-header, .modal-footer { border-color: rgba(255,255,255,0.1); }
+        .btn-close { filter: invert(1); }
+        .notice-card {
+            background: rgba(30,41,59,0.9);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px; margin-bottom: 16px;
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .notice-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+        .notice-card.urgent { border-left: 4px solid var(--danger-color); }
+        .notice-card.normal { border-left: 4px solid var(--info-color); }
+        .notice-card.important { border-left: 4px solid var(--warning-color); }
+        .chat-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 16px; border-radius: 12px;
+            cursor: pointer; transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .chat-item:hover { background: rgba(99,102,241,0.1); }
+        .chat-avatar {
+            width: 48px; height: 48px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; flex-shrink: 0;
+        }
+        .chat-bubble {
+            max-width: 70%; padding: 12px 16px;
+            border-radius: 16px; font-size: 14px; line-height: 1.6;
+        }
+        .chat-bubble.sent {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white; border-bottom-right-radius: 4px; margin-left: auto;
+        }
+        .chat-bubble.received {
+            background: rgba(255,255,255,0.1);
+            border-bottom-left-radius: 4px;
+        }
+        .checkin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 8px;
+        }
+        .checkin-cell {
+            aspect-ratio: 1; border-radius: 10px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            font-size: 12px; gap: 4px;
+        }
+        .checkin-cell.done { background: rgba(16,185,129,0.2); color: #34d399; }
+        .checkin-cell.undone { background: rgba(239,68,68,0.15); color: #f87171; }
+        .checkin-cell.leave { background: rgba(245,158,11,0.15); color: #fbbf24; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon"><i class="bi bi-mortarboard"></i></div>
+                <div>
+                    <div style="font-weight:600;font-size:16px;">家校沟通</div>
+                    <div style="font-size:12px;color:var(--text-secondary);">Class Bridge</div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-menu">
+            <div class="nav-item active" onclick="showSection('dashboard')">
+                <i class="bi bi-speedometer2"></i><span>工作台</span>
+            </div>
+            <div class="nav-item" onclick="showSection('notice')">
+                <i class="bi bi-megaphone"></i><span>通知管理</span>
+            </div>
+            <div class="nav-item" onclick="showSection('homework')">
+                <i class="bi bi-journal-check"></i><span>作业管理</span>
+            </div>
+            <div class="nav-item" onclick="showSection('checkin')">
+                <i class="bi bi-check2-circle"></i><span>智能打卡</span>
+            </div>
+            <div class="nav-item" onclick="showSection('score')">
+                <i class="bi bi-bar-chart-line"></i><span>成绩管理</span>
+            </div>
+            <div class="nav-item" onclick="showSection('chat')">
+                <i class="bi bi-chat-dots"></i><span>家校沟通</span>
+            </div>
+            <div class="nav-item" onclick="showSection('approval')">
+                <i class="bi bi-clipboard-check"></i><span>审批管理</span>
+            </div>
+            <div class="nav-item" onclick="showSection('album')">
+                <i class="bi bi-images"></i><span>班级相册</span>
+            </div>
+            <div class="nav-item" onclick="showSection('survey')">
+                <i class="bi bi-ui-checks-grid"></i><span>问卷调查</span>
+            </div>
+            <div class="nav-item" onclick="showSection('fee')">
+                <i class="bi bi-cash-stack"></i><span>收费管理</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <div>
+                <button class="btn btn-outline-light d-md-none" onclick="toggleSidebar()">
+                    <i class="bi bi-list"></i>
+                </button>
+                <span class="page-title ms-2" id="pageTitle">工作台</span>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div style="position:relative;">
+                    <button class="btn btn-outline-light" style="border-radius:10px;">
+                        <i class="bi bi-bell"></i>
+                    </button>
+                    <span class="badge bg-danger" style="position:absolute;top:2px;right:2px;font-size:10px;">5</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));display:flex;align-items:center;justify-content:center;">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight:500;">王老师</div>
+                        <div style="font-size:12px;color:var(--text-secondary);">三年级2班 班主任</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 工作台 -->
+        <div class="section active" id="dashboard">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value">42</div>
+                                <div class="stat-label">班级学生</div>
+                            </div>
+                            <div class="stat-icon" style="background:rgba(99,102,241,0.2);color:#818cf8;">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value">3</div>
+                                <div class="stat-label">未读通知</div>
+                            </div>
+                            <div class="stat-icon" style="background:rgba(245,158,11,0.2);color:#fbbf24;">
+                                <i class="bi bi-megaphone-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value">5</div>
+                                <div class="stat-label">待批作业</div>
+                            </div>
+                            <div class="stat-icon" style="background:rgba(16,185,129,0.2);color:#34d399;">
+                                <i class="bi bi-journal-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value" style="color:#fbbf24;">2</div>
+                                <div class="stat-label">待审批</div>
+                            </div>
+                            <div class="stat-icon" style="background:rgba(239,68,68,0.2);color:#f87171;">
+                                <i class="bi bi-clipboard-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-md-8">
+                    <div class="card p-4">
+                        <h5 class="mb-4">今日待办</h5>
+                        <div id="todoList">
+                            <div class="d-flex align-items-center gap-3 p-3 mb-2" style="background:rgba(239,68,68,0.1);border-radius:10px;">
+                                <i class="bi bi-exclamation-circle" style="color:#f87171;font-size:20px;"></i>
+                                <div style="flex:1;">
+                                    <div style="font-weight:500;">张小明家长请假申请待审批</div>
+                                    <div style="font-size:12px;color:var(--text-secondary);">事假 · 5月12日-5月13日</div>
+                                </div>
+                                <button class="btn btn-sm btn-primary" onclick="showSection('approval')">去审批</button>
+                            </div>
+                            <div class="d-flex align-items-center gap-3 p-3 mb-2" style="background:rgba(245,158,11,0.1);border-radius:10px;">
+                                <i class="bi bi-journal-x" style="color:#fbbf24;font-size:20px;"></i>
+                                <div style="flex:1;">
+                                    <div style="font-weight:500;">数学作业还有5人未提交</div>
+                                    <div style="font-size:12px;color:var(--text-secondary);">截止时间：今天18:00</div>
+                                </div>
+                                <button class="btn btn-sm btn-primary" onclick="showSection('homework')">查看</button>
+                            </div>
+                            <div class="d-flex align-items-center gap-3 p-3 mb-2" style="background:rgba(99,102,241,0.1);border-radius:10px;">
+                                <i class="bi bi-megaphone" style="color:#818cf8;font-size:20px;"></i>
+                                <div style="flex:1;">
+                                    <div style="font-weight:500;">家长会通知还有8人未读</div>
+                                    <div style="font-size:12px;color:var(--text-secondary);">发布于今天 08:30</div>
+                                </div>
+                                <button class="btn btn-sm btn-primary" onclick="showSection('notice')">一键催读</button>
+                            </div>
+                            <div class="d-flex align-items-center gap-3 p-3" style="background:rgba(16,185,129,0.1);border-radius:10px;">
+                                <i class="bi bi-check2-circle" style="color:#34d399;font-size:20px;"></i>
+                                <div style="flex:1;">
+                                    <div style="font-weight:500;">阅读打卡统计</div>
+                                    <div style="font-size:12px;color:var(--text-secondary);">今日已打卡 35/42 人</div>
+                                </div>
+                                <button class="btn btn-sm btn-primary" onclick="showSection('checkin')">查看</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-4">
+                        <h5 class="mb-4">班级速览</h5>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span style="font-size:14px;">出勤率</span>
+                                <span style="font-size:14px;color:#34d399;">95.2%</span>
+                            </div>
+                            <div class="progress"><div class="progress-bar" style="width:95.2%"></div></div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span style="font-size:14px;">待消课时率</span>
+                                <span style="font-size:14px;color:#818cf8;">88.1%</span>
+                            </div>
+                            <div class="progress"><div class="progress-bar" style="width:88.1%"></div></div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span style="font-size:14px;">通知阅读率</span>
+                                <span style="font-size:14px;color:#fbbf24;">81.0%</span>
+                            </div>
+                            <div class="progress"><div class="progress-bar" style="width:81%"></div></div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span style="font-size:14px;">打卡完成率</span>
+                                <span style="font-size:14px;color:#34d399;">83.3%</span>
+                            </div>
+                            <div class="progress"><div class="progress-bar" style="width:83.3%"></div></div>
+                        </div>
+                        <hr style="border-color:rgba(255,255,255,0.1);">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-center">
+                                <div style="font-size:20px;font-weight:700;color:#34d399;">40</div>
+                                <div style="font-size:12px;color:var(--text-secondary);">今日出勤</div>
+                            </div>
+                            <div class="text-center">
+                                <div style="font-size:20px;font-weight:700;color:#fbbf24;">1</div>
+                                <div style="font-size:12px;color:var(--text-secondary);">请假</div>
+                            </div>
+                            <div class="text-center">
+                                <div style="font-size:20px;font-weight:700;color:#f87171;">1</div>
+                                <div style="font-size:12px;color:var(--text-secondary);">迟到</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-4">
+                <h5 class="mb-4">快捷操作</h5>
+                <div class="row g-3 text-center">
+                    <div class="col">
+                        <div style="padding:20px;background:rgba(99,102,241,0.1);border-radius:15px;cursor:pointer;" onclick="showSection('notice')">
+                            <i class="bi bi-megaphone-fill" style="font-size:28px;color:#818cf8;"></i>
+                            <div style="margin-top:8px;font-size:13px;">发通知</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div style="padding:20px;background:rgba(16,185,129,0.1);border-radius:15px;cursor:pointer;" onclick="showSection('homework')">
+                            <i class="bi bi-journal-plus" style="font-size:28px;color:#34d399;"></i>
+                            <div style="margin-top:8px;font-size:13px;">布置作业</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div style="padding:20px;background:rgba(245,158,11,0.1);border-radius:15px;cursor:pointer;" onclick="showSection('checkin')">
+                            <i class="bi bi-check2-square" style="font-size:28px;color:#fbbf24;"></i>
+                            <div style="margin-top:8px;font-size:13px;">发起打卡</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div style="padding:20px;background:rgba(239,68,68,0.1);border-radius:15px;cursor:pointer;" onclick="showSection('score')">
+                            <i class="bi bi-graph-up" style="font-size:28px;color:#f87171;"></i>
+                            <div style="margin-top:8px;font-size:13px;">录入成绩</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div style="padding:20px;background:rgba(139,92,246,0.1);border-radius:15px;cursor:pointer;" onclick="showSection('survey')">
+                            <i class="bi bi-ui-checks-grid" style="font-size:28px;color:#a78bfa;"></i>
+                            <div style="margin-top:8px;font-size:13px;">发问卷</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div style="padding:20px;background:rgba(59,130,246,0.1);border-radius:15px;cursor:pointer;" onclick="showSection('fee')">
+                            <i class="bi bi-cash-coin" style="font-size:28px;color:#60a5fa;"></i>
+                            <div style="margin-top:8px;font-size:13px;">发起收费</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 通知管理 -->
+        <div class="section" id="notice">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">通知管理</h5>
+                <button class="btn btn-primary" onclick="showModal('addNoticeModal')">
+                    <i class="bi bi-plus-lg me-2"></i>发布通知
+                </button>
+            </div>
+            <div class="notice-card urgent">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="status-badge status-danger mb-2" style="font-size:11px;">紧急</span>
+                        <h6 class="mt-2 mb-1">关于本周五家长会的通知</h6>
+                        <div style="font-size:13px;color:var(--text-secondary);">各位家长，本周五（5月15日）下午2:00将在学校报告厅召开家长会，请务必参加...</div>
+                    </div>
+                    <div style="text-align:right;min-width:100px;">
+                        <div style="font-size:12px;color:var(--text-secondary);">今天 08:30</div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div>
+                        <span style="font-size:13px;"><span style="color:#34d399;">34</span> 已读</span>
+                        <span style="font-size:13px;margin-left:15px;"><span style="color:#f87171;">8</span> 未读</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-warning">一键催读</button>
+                        <button class="btn btn-sm btn-outline-info">查看详情</button>
+                    </div>
+                </div>
+            </div>
+            <div class="notice-card important">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="status-badge status-warning mb-2" style="font-size:11px;">重要</span>
+                        <h6 class="mt-2 mb-1">期中考试成绩已公布</h6>
+                        <div style="font-size:13px;color:var(--text-secondary);">各位家长，期中考试成绩已统计完毕，请登录系统查看孩子的各科成绩及班级排名...</div>
+                    </div>
+                    <div style="text-align:right;min-width:100px;">
+                        <div style="font-size:12px;color:var(--text-secondary);">昨天 16:00</div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div>
+                        <span style="font-size:13px;"><span style="color:#34d399;">42</span> 已读</span>
+                        <span style="font-size:13px;margin-left:15px;"><span style="color:#34d399;">0</span> 未读</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-info">查看详情</button>
+                    </div>
+                </div>
+            </div>
+            <div class="notice-card normal">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="status-badge status-info mb-2" style="font-size:11px;">普通</span>
+                        <h6 class="mt-2 mb-1">下周阅读打卡安排</h6>
+                        <div style="font-size:13px;color:var(--text-secondary);">下周阅读打卡主题为"走进科学"，请家长督促孩子每天阅读30分钟...</div>
+                    </div>
+                    <div style="text-align:right;min-width:100px;">
+                        <div style="font-size:12px;color:var(--text-secondary);">昨天 10:00</div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div>
+                        <span style="font-size:13px;"><span style="color:#34d399;">38</span> 已读</span>
+                        <span style="font-size:13px;margin-left:15px;"><span style="color:#fbbf24;">4</span> 未读</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-warning">一键催读</button>
+                        <button class="btn btn-sm btn-outline-info">查看详情</button>
+                    </div>
+                </div>
+            </div>
+            <div class="notice-card normal">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="status-badge status-info mb-2" style="font-size:11px;">普通</span>
+                        <h6 class="mt-2 mb-1">春季校服尺码统计</h6>
+                        <div style="font-size:13px;color:var(--text-secondary);">请各位家长在系统中填写孩子的校服尺码，截止时间为本周日...</div>
+                    </div>
+                    <div style="text-align:right;min-width:100px;">
+                        <div style="font-size:12px;color:var(--text-secondary);">3天前</div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div>
+                        <span style="font-size:13px;"><span style="color:#34d399;">42</span> 已读</span>
+                        <span style="font-size:13px;margin-left:15px;"><span style="color:#34d399;">0</span> 未读</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-info">查看详情</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 作业管理 -->
+        <div class="section" id="homework">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">作业管理</h5>
+                <button class="btn btn-primary" onclick="showModal('addHomeworkModal')">
+                    <i class="bi bi-plus-lg me-2"></i>布置作业
+                </button>
+            </div>
+            <div class="card p-4 mb-4">
+                <div class="table-responsive">
+                    <table class="table data-table">
+                        <thead>
+                            <tr>
+                                <th>作业标题</th>
+                                <th>科目</th>
+                                <th>截止时间</th>
+                                <th>已提交</th>
+                                <th>未提交</th>
+                                <th>提交率</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight:500;">数学练习册P45-46</td>
+                                <td>数学</td>
+                                <td>今天 18:00</td>
+                                <td style="color:#34d399;">37</td>
+                                <td style="color:#f87171;">5</td>
+                                <td><span class="status-badge status-warning">88%</span></td>
+                                <td><button class="btn btn-sm btn-outline-primary">催交</button></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:500;">语文作文《我的梦想》</td>
+                                <td>语文</td>
+                                <td>明天 08:00</td>
+                                <td style="color:#34d399;">28</td>
+                                <td style="color:#fbbf24;">14</td>
+                                <td><span class="status-badge status-warning">67%</span></td>
+                                <td><button class="btn btn-sm btn-outline-primary">催交</button></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:500;">英语单词听写Unit5</td>
+                                <td>英语</td>
+                                <td>明天 12:00</td>
+                                <td style="color:#34d399;">40</td>
+                                <td style="color:#f87171;">2</td>
+                                <td><span class="status-badge status-normal">95%</span></td>
+                                <td><button class="btn btn-sm btn-outline-primary">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:500;">科学实验报告</td>
+                                <td>科学</td>
+                                <td>后天 18:00</td>
+                                <td style="color:#34d399;">15</td>
+                                <td style="color:#fbbf24;">27</td>
+                                <td><span class="status-badge status-danger">36%</span></td>
+                                <td><button class="btn btn-sm btn-outline-primary">催交</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 智能打卡 -->
+        <div class="section" id="checkin">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">智能打卡</h5>
+                <button class="btn btn-primary" onclick="showModal('addCheckinModal')">
+                    <i class="bi bi-plus-lg me-2"></i>发起打卡
+                </button>
+            </div>
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value">35</div>
+                                <div class="stat-label">今日已打卡</div>
+                            </div>
+                            <div class="stat-icon" style="background:rgba(16,185,129,0.2);color:#34d399;">
+                                <i class="bi bi-check2-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value" style="color:#fbbf24;">7</div>
+                                <div class="stat-label">未打卡</div>
+                            </div>
+                            <div class="stat-icon" style="background:rgba(245,158,11,0.2);color:#fbbf24;">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value">83.3%</div>
+                                <div class="stat-label">打卡完成率</div>
+                            </div>
+                            <div class="stat-icon" style="background:rgba(99,102,241,0.2);color:#818cf8;">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">阅读打卡 - 今日</h6>
+                            <span class="status-badge status-warning">进行中</span>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span style="font-size:13px;">完成率</span>
+                                <span style="font-size:13px;">35/42</span>
+                            </div>
+                            <div class="progress" style="height:10px;">
+                                <div class="progress-bar" style="width:83.3%"></div>
+                            </div>
+                        </div>
+                        <div class="checkin-grid" id="checkinGrid">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <h6 class="mb-3">运动打卡 - 今日</h6>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span style="font-size:13px;">完成率</span>
+                                <span style="font-size:13px;">28/42</span>
+                            </div>
+                            <div class="progress" style="height:10px;">
+                                <div class="progress-bar" style="width:66.7%"></div>
+                            </div>
+                        </div>
+                        <div class="checkin-grid" id="checkinGrid2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 成绩管理 -->
+        <div class="section" id="score">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">成绩管理</h5>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-light" onclick="showModal('importScoreModal')">
+                        <i class="bi bi-upload me-2"></i>导入成绩
+                    </button>
+                    <button class="btn btn-primary" onclick="showModal('addScoreModal')">
+                        <i class="bi bi-plus-lg me-2"></i>录入成绩
+                    </button>
+                </div>
+            </div>
+            <div class="card p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex gap-2">
+                        <select class="form-select form-select-sm" style="width:120px;">
+                            <option>期中考试</option>
+                            <option>月考一</option>
+                            <option>月考二</option>
+                        </select>
+                        <select class="form-select form-select-sm" style="width:100px;">
+                            <option>全部科目</option>
+                            <option>语文</option>
+                            <option>数学</option>
+                            <option>英语</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-sm btn-outline-info">
+                        <i class="bi bi-send me-1"></i>发送给家长
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table data-table">
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>语文</th>
+                                <th>数学</th>
+                                <th>英语</th>
+                                <th>科学</th>
+                                <th>总分</th>
+                                <th>排名</th>
+                                <th>发送状态</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoreTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 家校沟通 -->
+        <div class="section" id="chat">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card p-3" style="height:600px;overflow-y:auto;">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="搜索家长...">
+                        </div>
+                        <div id="chatList">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card" style="height:600px;display:flex;flex-direction:column;">
+                        <div class="p-3" style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                            <div class="d-flex align-items-center gap-3">
+                                <div style="width:40px;height:40px;border-radius:50%;background:rgba(99,102,241,0.2);display:flex;align-items:center;justify-content:center;">
+                                    <i class="bi bi-person" style="color:#818cf8;"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight:600;" id="chatTarget">张小明妈妈</div>
+                                    <div style="font-size:12px;color:var(--text-secondary);">在线</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-3" style="flex:1;overflow-y:auto;" id="chatMessages">
+                            <div class="d-flex mb-3">
+                                <div class="chat-bubble received">王老师您好，想请问一下小明最近在学校的表现怎么样？</div>
+                            </div>
+                            <div class="d-flex mb-3 justify-content-end">
+                                <div class="chat-bubble sent">小明妈妈您好！小明最近上课很认真，数学成绩进步很大，不过英语还需要加强阅读练习。</div>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <div class="chat-bubble received">好的，谢谢老师！我在家会多督促他读英语的。</div>
+                            </div>
+                            <div class="d-flex mb-3 justify-content-end">
+                                <div class="chat-bubble sent">嗯，另外本周五下午2点有家长会，请记得参加哦！</div>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <div class="chat-bubble received">好的老师，我会准时参加的！</div>
+                            </div>
+                        </div>
+                        <div class="p-3" style="border-top:1px solid rgba(255,255,255,0.1);">
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" placeholder="输入消息..." id="chatInput" onkeypress="if(event.key==='Enter')sendMessage()">
+                                <button class="btn btn-primary" onclick="sendMessage()">
+                                    <i class="bi bi-send"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 审批管理 -->
+        <div class="section" id="approval">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">审批管理</h5>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-light active">全部</button>
+                    <button class="btn btn-sm btn-outline-warning">待审批</button>
+                    <button class="btn btn-sm btn-outline-success">已通过</button>
+                    <button class="btn btn-sm btn-outline-danger">已拒绝</button>
+                </div>
+            </div>
+            <div class="card p-4 mb-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div style="width:50px;height:50px;border-radius:50%;background:rgba(99,102,241,0.2);display:flex;align-items:center;justify-content:center;font-size:22px;">
+                        <i class="bi bi-person" style="color:#818cf8;"></i>
+                    </div>
+                    <div style="flex:1;">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span style="font-weight:600;">张小明</span>
+                                <span class="status-badge status-warning ms-2">待审批</span>
+                                <span class="status-badge status-info ms-2">请假</span>
+                            </div>
+                            <span style="font-size:12px;color:var(--text-secondary);">30分钟前</span>
+                        </div>
+                        <div style="font-size:13px;color:var(--text-secondary);margin-top:5px;">事假 · 5月12日-5月13日（2天） · 家里有事需要处理</div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <button class="btn btn-sm btn-outline-danger" onclick="handleApproval(this,'rejected')">拒绝</button>
+                    <button class="btn btn-sm btn-primary" onclick="handleApproval(this,'approved')">通过</button>
+                </div>
+            </div>
+            <div class="card p-4 mb-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div style="width:50px;height:50px;border-radius:50%;background:rgba(16,185,129,0.2);display:flex;align-items:center;justify-content:center;font-size:22px;">
+                        <i class="bi bi-person" style="color:#34d399;"></i>
+                    </div>
+                    <div style="flex:1;">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span style="font-weight:600;">李小红</span>
+                                <span class="status-badge status-warning ms-2">待审批</span>
+                                <span class="status-badge status-info ms-2">请假</span>
+                            </div>
+                            <span style="font-size:12px;color:var(--text-secondary);">2小时前</span>
+                        </div>
+                        <div style="font-size:13px;color:var(--text-secondary);margin-top:5px;">病假 · 5月11日（1天） · 感冒发烧需要休息</div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <button class="btn btn-sm btn-outline-danger" onclick="handleApproval(this,'rejected')">拒绝</button>
+                    <button class="btn btn-sm btn-primary" onclick="handleApproval(this,'approved')">通过</button>
+                </div>
+            </div>
+            <div class="card p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div style="width:50px;height:50px;border-radius:50%;background:rgba(107,114,128,0.2);display:flex;align-items:center;justify-content:center;font-size:22px;">
+                        <i class="bi bi-person" style="color:#94a3b8;"></i>
+                    </div>
+                    <div style="flex:1;">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span style="font-weight:600;">王大力</span>
+                                <span class="status-badge status-normal ms-2">已通过</span>
+                                <span class="status-badge status-info ms-2">请假</span>
+                            </div>
+                            <span style="font-size:12px;color:var(--text-secondary);">昨天 14:30</span>
+                        </div>
+                        <div style="font-size:13px;color:var(--text-secondary);margin-top:5px;">事假 · 5月9日（1天） · 参加市区竞赛</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 班级相册 -->
+        <div class="section" id="album">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">班级相册</h5>
+                <button class="btn btn-primary" onclick="alert('原型演示：上传照片')">
+                    <i class="bi bi-cloud-upload me-2"></i>上传照片
+                </button>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-3 col-6">
+                    <div style="border-radius:12px;overflow:hidden;aspect-ratio:1;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                        <div class="text-center">
+                            <i class="bi bi-trophy" style="font-size:36px;"></i>
+                            <div style="font-size:12px;margin-top:5px;">运动会</div>
+                            <div style="font-size:11px;color:var(--text-secondary);">36张</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div style="border-radius:12px;overflow:hidden;aspect-ratio:1;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                        <div class="text-center">
+                            <i class="bi bi-tree" style="font-size:36px;"></i>
+                            <div style="font-size:12px;margin-top:5px;">春游</div>
+                            <div style="font-size:11px;color:var(--text-secondary);">52张</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div style="border-radius:12px;overflow:hidden;aspect-ratio:1;background:linear-gradient(135deg,#4facfe,#00f2fe);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                        <div class="text-center">
+                            <i class="bi bi-book" style="font-size:36px;"></i>
+                            <div style="font-size:12px;margin-top:5px;">阅读节</div>
+                            <div style="font-size:11px;color:var(--text-secondary);">28张</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div style="border-radius:12px;overflow:hidden;aspect-ratio:1;background:linear-gradient(135deg,#43e97b,#38f9d7);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                        <div class="text-center">
+                            <i class="bi bi-stars" style="font-size:36px;"></i>
+                            <div style="font-size:12px;margin-top:5px;">六一汇演</div>
+                            <div style="font-size:11px;color:var(--text-secondary);">45张</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 问卷调查 -->
+        <div class="section" id="survey">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">问卷调查</h5>
+                <button class="btn btn-primary" onclick="showModal('addSurveyModal')">
+                    <i class="bi bi-plus-lg me-2"></i>创建问卷
+                </button>
+            </div>
+            <div class="card p-4 mb-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6 class="mb-1">家长会时间投票</h6>
+                        <div style="font-size:13px;color:var(--text-secondary);">投票选项：周五下午、周六上午、周六下午</div>
+                    </div>
+                    <span class="status-badge status-normal">已结束</span>
+                </div>
+                <div class="mt-3">
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between mb-1"><span style="font-size:13px;">周五下午</span><span style="font-size:13px;">28票 (67%)</span></div>
+                        <div class="progress" style="height:6px;"><div class="progress-bar" style="width:67%"></div></div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between mb-1"><span style="font-size:13px;">周六上午</span><span style="font-size:13px;">10票 (24%)</span></div>
+                        <div class="progress" style="height:6px;"><div class="progress-bar" style="width:24%"></div></div>
+                    </div>
+                    <div>
+                        <div class="d-flex justify-content-between mb-1"><span style="font-size:13px;">周六下午</span><span style="font-size:13px;">4票 (10%)</span></div>
+                        <div class="progress" style="height:6px;"><div class="progress-bar" style="width:10%"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6 class="mb-1">校服尺码统计</h6>
+                        <div style="font-size:13px;color:var(--text-secondary);">请填写孩子的校服尺码</div>
+                    </div>
+                    <div>
+                        <span class="status-badge status-warning">进行中</span>
+                        <span style="font-size:12px;color:var(--text-secondary);margin-left:10px;">38/42 已填写</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 收费管理 -->
+        <div class="section" id="fee">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">收费管理</h5>
+                <button class="btn btn-primary" onclick="showModal('addFeeModal')">
+                    <i class="bi bi-plus-lg me-2"></i>发起收费
+                </button>
+            </div>
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-value">¥2,800</div>
+                        <div class="stat-label">本月收费总额</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-value" style="color:#34d399;">38</div>
+                        <div class="stat-label">已缴费人数</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-value" style="color:#fbbf24;">4</div>
+                        <div class="stat-label">未缴费人数</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-value">90.5%</div>
+                        <div class="stat-label">缴费完成率</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-4">
+                <div class="table-responsive">
+                    <table class="table data-table">
+                        <thead>
+                            <tr><th>收费项目</th><th>金额</th><th>已缴</th><th>未缴</th><th>截止时间</th><th>状态</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight:500;">春游费</td><td>¥80/人</td>
+                                <td style="color:#34d399;">40</td><td style="color:#fbbf24;">2</td>
+                                <td>5月15日</td><td><span class="status-badge status-warning">进行中</span></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:500;">班费（本学期）</td><td>¥50/人</td>
+                                <td style="color:#34d399;">42</td><td style="color:#34d399;">0</td>
+                                <td>4月30日</td><td><span class="status-badge status-normal">已完成</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 发布通知弹窗 -->
+    <div class="modal fade" id="addNoticeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">发布通知</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">通知标题</label>
+                        <input type="text" class="form-control" placeholder="请输入通知标题">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">紧急程度</label>
+                        <select class="form-select">
+                            <option>普通</option>
+                            <option>重要</option>
+                            <option>紧急</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">通知内容</label>
+                        <textarea class="form-control" rows="5" placeholder="请输入通知内容..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">附件</label>
+                        <input type="file" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" checked id="needConfirm">
+                            <label class="form-check-label" for="needConfirm">需要家长确认收到</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">发布通知</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 布置作业弹窗 -->
+    <div class="modal fade" id="addHomeworkModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">布置作业</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">科目</label>
+                        <select class="form-select">
+                            <option>语文</option><option>数学</option><option>英语</option><option>科学</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">作业标题</label>
+                        <input type="text" class="form-control" placeholder="请输入作业标题">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">作业内容</label>
+                        <textarea class="form-control" rows="4" placeholder="请输入作业要求..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">截止时间</label>
+                        <input type="datetime-local" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="allowPhoto">
+                            <label class="form-check-label" for="allowPhoto">允许拍照提交</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">发布作业</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 发起打卡弹窗 -->
+    <div class="modal fade" id="addCheckinModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">发起打卡</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">打卡类型</label>
+                        <select class="form-select">
+                            <option>阅读打卡</option><option>运动打卡</option><option>早读打卡</option><option>自定义</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">打卡主题</label>
+                        <input type="text" class="form-control" placeholder="如：每日阅读30分钟">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">打卡周期</label>
+                        <select class="form-select">
+                            <option>每天</option><option>工作日</option><option>自定义</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">起止日期</label>
+                        <div class="d-flex gap-2">
+                            <input type="date" class="form-control">
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" checked id="needPhoto">
+                            <label class="form-check-label" for="needPhoto">需要拍照打卡</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">发起打卡</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导入成绩弹窗 -->
+    <div class="modal fade" id="importScoreModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">导入成绩</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">考试名称</label>
+                        <input type="text" class="form-control" placeholder="如：期中考试">
+                    </div>
+                    <div style="border:2px dashed rgba(99,102,241,0.3);border-radius:15px;padding:40px;text-align:center;cursor:pointer;">
+                        <i class="bi bi-cloud-upload" style="font-size:48px;color:#818cf8;"></i>
+                        <div style="margin-top:15px;font-weight:500;">点击上传Excel文件</div>
+                        <div style="font-size:12px;color:var(--text-secondary);">支持 .xlsx .xls 格式</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">导入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
