@@ -12,10 +12,10 @@
             --primary: #10b981;
             --secondary: #3b82f6;
             --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
         }
         * { box-sizing: border-box; }
         body {
@@ -31,12 +31,12 @@
             background: linear-gradient(180deg, var(--card-bg) 0%, var(--dark-bg) 100%);
             position: fixed;
             left: 0; top: 0;
-            border-right: 1px solid rgba(255,255,255,0.1);
+            border-right: 1px solid rgba(0,0,0,0.1);
             z-index: 100;
         }
         .logo {
             padding: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
         }
         .logo-icon {
             width: 45px;
@@ -84,7 +84,7 @@
         }
         .stat-card {
             background: rgba(30, 41, 59, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 20px;
@@ -111,7 +111,7 @@
         }
         .card {
             background: rgba(30, 41, 59, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 16px;
             margin-bottom: 20px;
             transition: all 0.3s ease;
@@ -121,7 +121,7 @@
         }
         .card-header {
             background: transparent;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             padding: 16px 20px;
             font-weight: 600;
             color: var(--text-primary);
@@ -143,7 +143,7 @@
             color: var(--text-secondary);
         }
         .btn-outline-light:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.1);
             color: var(--text-primary);
         }
         .chart-container {
@@ -154,7 +154,7 @@
             color: var(--text-secondary);
         }
         .table th {
-            border-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(0, 0, 0, 0.1);
             color: var(--text-primary);
             font-weight: 600;
             background: rgba(16, 185, 129, 0.05);
@@ -175,7 +175,7 @@
         }
         .form-control, .form-select {
             background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             color: var(--text-primary);
             border-radius: 10px;
         }
@@ -200,7 +200,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .progress {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
         .progress-bar {
@@ -560,11 +560,11 @@
                 </div>
                 <nav class="mt-4">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item disabled"><span class="page-link" style="background:rgba(15,23,42,0.5);border-color:rgba(255,255,255,0.1);">上一页</span></li>
+                        <li class="page-item disabled"><span class="page-link" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);">上一页</span></li>
                         <li class="page-item active"><span class="page-link" style="background:linear-gradient(135deg,#10b981,#3b82f6);border-color:#10b981;">1</span></li>
-                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(255,255,255,0.1);color:var(--text-secondary);">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(255,255,255,0.1);color:var(--text-secondary);">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(255,255,255,0.1);color:var(--text-secondary);">下一页</a></li>
+                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);color:var(--text-secondary);">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);color:var(--text-secondary);">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#" style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);color:var(--text-secondary);">下一页</a></li>
                     </ul>
                 </nav>
             </div>
@@ -969,7 +969,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-4 pt-3 border-top" style="border-color:rgba(255,255,255,0.1) !important;">
+                <div class="mt-4 pt-3 border-top" style="border-color:rgba(0,0,0,0.1) !important;">
                     <button class="btn btn-primary me-2">
                         <i class="bi bi-check-lg me-1"></i>保存设置
                     </button>

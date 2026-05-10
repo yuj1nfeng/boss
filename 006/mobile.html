@@ -15,10 +15,10 @@
             --warning-color: #f59e0b;
             --danger-color: #ef4444;
             --info-color: #3b82f6;
-            --bg-dark: #0a0f1a;
-            --bg-card: #1a2332;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
+            --bg-dark: #ffffff;
+            --bg-card: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
         }
         body {
             background: var(--bg-dark);
@@ -71,7 +71,7 @@
         .card-more { color: var(--text-secondary); font-size: 12px; cursor: pointer; }
         .notice-item {
             padding: 14px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
             cursor: pointer;
         }
         .notice-item:last-child { border-bottom: none; }
@@ -89,7 +89,7 @@
         .notice-status.unread { color: #f87171; }
         .hw-item {
             display: flex; align-items: center; gap: 12px;
-            padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         .hw-item:last-child { border-bottom: none; }
         .hw-subject {
@@ -128,11 +128,11 @@
         }
         .score-item {
             display: flex; align-items: center; gap: 12px;
-            padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         .score-item:last-child { border-bottom: none; }
         .score-subject { width: 60px; font-weight: 600; font-size: 14px; }
-        .score-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+        .score-bar { flex: 1; height: 6px; background: rgba(0,0,0,0.1); border-radius: 3px; }
         .score-bar-fill { height: 100%; border-radius: 3px; }
         .score-value { font-weight: 700; font-size: 16px; min-width: 40px; text-align: right; }
         .bottom-nav {
@@ -141,7 +141,7 @@
             background: rgba(26,35,50,0.95);
             backdrop-filter: blur(20px);
             display: flex; justify-content: space-around; align-items: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(0,0,0,0.05);
             z-index: 1000;
             padding-bottom: env(safe-area-inset-bottom);
         }
@@ -178,7 +178,7 @@
             display: flex; align-items: center;
             padding: 16px 20px; cursor: pointer; transition: all 0.3s ease;
         }
-        .menu-item:active { background: rgba(255,255,255,0.05); }
+        .menu-item:active { background: rgba(0,0,0,0.05); }
         .menu-icon {
             width: 40px; height: 40px; border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
@@ -191,7 +191,7 @@
         .form-group label { display: block; font-size: 14px; margin-bottom: 8px; color: var(--text-secondary); }
         .form-group input, .form-group select, .form-group textarea {
             width: 100%; padding: 12px; border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             background: rgba(15,23,42,0.8); color: var(--text-primary);
             font-size: 14px;
         }
@@ -205,7 +205,7 @@
         .submit-btn:active { transform: scale(0.98); opacity: 0.9; }
         .circle-post {
             padding: 16px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         .circle-post:last-child { border-bottom: none; }
         .circle-author {
@@ -256,7 +256,7 @@
         .cal-day.done { background: rgba(16,185,129,0.2); color: #34d399; }
         .cal-day.miss { background: rgba(239,68,68,0.15); color: #f87171; }
         .cal-day.today { background: rgba(99,102,241,0.2); color: #818cf8; border: 1px solid #818cf8; }
-        .cal-day.future { background: rgba(255,255,255,0.05); color: var(--text-secondary); }
+        .cal-day.future { background: rgba(0,0,0,0.05); color: var(--text-secondary); }
     </style>
 </head>
 <body>
@@ -333,7 +333,7 @@
                     <div class="hw-title">单词听写Unit5</div>
                     <div class="hw-deadline">截止明天 12:00</div>
                 </div>
-                <span class="hw-status-badge" style="background:rgba(107,114,128,0.2);color:#94a3b8;">待完成</span>
+                <span class="hw-status-badge" style="background:rgba(107,114,128,0.2);color:#64748b;">待完成</span>
             </div>
         </div>
         <div class="data-card">
@@ -425,7 +425,7 @@
                     <div class="hw-title">单词听写Unit5</div>
                     <div class="hw-deadline">截止明天 12:00</div>
                 </div>
-                <span class="hw-status-badge" style="background:rgba(107,114,128,0.2);color:#94a3b8;">待完成</span>
+                <span class="hw-status-badge" style="background:rgba(107,114,128,0.2);color:#64748b;">待完成</span>
             </div>
             <div class="hw-item">
                 <div class="hw-subject" style="background:rgba(16,185,129,0.2);color:#34d399;">科</div>
@@ -433,14 +433,14 @@
                     <div class="hw-title">科学实验报告</div>
                     <div class="hw-deadline">截止后天 18:00</div>
                 </div>
-                <span class="hw-status-badge" style="background:rgba(107,114,128,0.2);color:#94a3b8;">待完成</span>
+                <span class="hw-status-badge" style="background:rgba(107,114,128,0.2);color:#64748b;">待完成</span>
             </div>
         </div>
         <div class="data-card">
             <div class="card-title"><span>提交作业</span></div>
             <div class="form-group">
                 <label style="font-size:14px;color:var(--text-secondary);">选择作业</label>
-                <select style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(15,23,42,0.8);color:var(--text-primary);font-size:14px;">
+                <select style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(0,0,0,0.1);background:rgba(15,23,42,0.8);color:var(--text-primary);font-size:14px;">
                     <option>数学练习册P45-46</option><option>单词听写Unit5</option>
                 </select>
             </div>
@@ -480,13 +480,13 @@
         </div>
         <div class="data-card">
             <div style="font-weight:600;font-size:16px;margin-bottom:12px;">打卡排行榜（本周）</div>
-            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.05);">
                 <span style="font-size:18px;">🥇</span><span style="flex:1;font-size:14px;">陈思思</span><span style="font-size:14px;color:#34d399;">7/7天</span>
             </div>
-            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.05);">
                 <span style="font-size:18px;">🥈</span><span style="flex:1;font-size:14px;">马小云</span><span style="font-size:14px;color:#34d399;">7/7天</span>
             </div>
-            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.05);">
                 <span style="font-size:18px;">🥉</span><span style="flex:1;font-size:14px;">周小兰</span><span style="font-size:14px;color:#fbbf24;">6/7天</span>
             </div>
             <div style="display:flex;align-items:center;gap:10px;padding:8px 0;">

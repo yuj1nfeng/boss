@@ -277,9 +277,9 @@ function updateCharts(gh) {
         },
         options: {
             responsive: true,
-            plugins: { legend: { labels: { color: '#cbd5e1' } } },
+            plugins: { legend: { labels: { color: '#475569' } } },
             scales: {
-                x: { ticks: { color: '#cbd5e1' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                x: { ticks: { color: '#475569' }, grid: { color: 'rgba(255,255,255,0.05)' } },
                 y: { position: 'left', ticks: { color: '#ef4444' }, grid: { color: 'rgba(255,255,255,0.05)' } },
                 y1: { position: 'right', ticks: { color: '#3b82f6' }, grid: { display: false } }
             }
@@ -314,10 +314,10 @@ function updateCharts(gh) {
         },
         options: {
             responsive: true,
-            plugins: { legend: { labels: { color: '#cbd5e1' } } },
+            plugins: { legend: { labels: { color: '#475569' } } },
             scales: {
-                x: { ticks: { color: '#cbd5e1' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                y: { ticks: { color: '#cbd5e1' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                x: { ticks: { color: '#475569' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: '#475569' }, grid: { color: 'rgba(255,255,255,0.05)' } }
             }
         }
     });

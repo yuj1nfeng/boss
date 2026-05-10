@@ -7,18 +7,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; color: #f1f5f9; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #ffffff 100%); min-height: 100vh; color: #f1f5f9; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
         .page { display: none; padding: 15px; }
         .page.active { display: block; }
         .header { padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .header-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #6366f1, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .card { background: rgba(30,41,59,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; margin-bottom: 15px; border: none; }
+        .card { background: rgba(30,41,59,0.8); border: 1px solid rgba(0,0,0,0.1); border-radius: 16px; margin-bottom: 15px; border: none; }
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
         .stat-card { background: rgba(30,41,59,0.8); border-radius: 12px; padding: 15px; text-align: center; }
         .stat-value { font-size: 22px; font-weight: 700; color: #6366f1; }
-        .list-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
-        .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 5px 15px; border-radius: 10px; color: #94a3b8; font-size: 12px; }
+        .list-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(0,0,0,0.1); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
+        .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 5px 15px; border-radius: 10px; color: #64748b; font-size: 12px; }
         .nav-btn.active { color: #6366f1; }
         .nav-btn i { font-size: 22px; }
         .fab { position: fixed; bottom: 90px; right: 20px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #ec4899); display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; z-index: 999; border: none; }
@@ -28,20 +28,20 @@
     <div class="header"><span class="header-title"><i class="bi bi-graph-up me-2"></i>数据可视化平台</span><i class="bi bi-bell" style="cursor:pointer;"></i></div>
     <div id="home" class="page active">
         <div class="stat-grid">
-            <div class="stat-card"><div class="stat-value">1,234</div><div style="color:#94a3b8;font-size:12px;">总数据</div></div>
-            <div class="stat-card"><div class="stat-value">567</div><div style="color:#94a3b8;font-size:12px;">本月新增</div></div>
-            <div class="stat-card"><div class="stat-value">89.5%</div><div style="color:#94a3b8;font-size:12px;">完成率</div></div>
-            <div class="stat-card"><div class="stat-value">¥89K</div><div style="color:#94a3b8;font-size:12px;">总金额</div></div>
+            <div class="stat-card"><div class="stat-value">1,234</div><div style="color:#64748b;font-size:12px;">总数据</div></div>
+            <div class="stat-card"><div class="stat-value">567</div><div style="color:#64748b;font-size:12px;">本月新增</div></div>
+            <div class="stat-card"><div class="stat-value">89.5%</div><div style="color:#64748b;font-size:12px;">完成率</div></div>
+            <div class="stat-card"><div class="stat-value">¥89K</div><div style="color:#64748b;font-size:12px;">总金额</div></div>
         </div>
         <div class="card">
-            <div style="padding:15px; border-bottom:1px solid rgba(255,255,255,0.1); font-weight:600;"><i class="bi bi-list-ul me-2"></i>最近记录</div>
-            <div class="list-item"><div style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;"><i class="bi bi-graph-up"></i></div><div><div style="font-weight:500;">示例记录 #001</div><div style="font-size:12px;color:#94a3b8;">2024-01-15 · 正常</div></div></div>
-            <div class="list-item"><div style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;"><i class="bi bi-graph-up"></i></div><div><div style="font-weight:500;">示例记录 #002</div><div style="font-size:12px;color:#94a3b8;">2024-01-14 · 处理中</div></div></div>
-            <div class="list-item"><div style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;"><i class="bi bi-graph-up"></i></div><div><div style="font-weight:500;">示例记录 #003</div><div style="font-size:12px;color:#94a3b8;">2024-01-13 · 正常</div></div></div>
+            <div style="padding:15px; border-bottom:1px solid rgba(0,0,0,0.1); font-weight:600;"><i class="bi bi-list-ul me-2"></i>最近记录</div>
+            <div class="list-item"><div style="width:40px;height:40px;border-radius:10px;background:rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;"><i class="bi bi-graph-up"></i></div><div><div style="font-weight:500;">示例记录 #001</div><div style="font-size:12px;color:#64748b;">2024-01-15 · 正常</div></div></div>
+            <div class="list-item"><div style="width:40px;height:40px;border-radius:10px;background:rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;"><i class="bi bi-graph-up"></i></div><div><div style="font-weight:500;">示例记录 #002</div><div style="font-size:12px;color:#64748b;">2024-01-14 · 处理中</div></div></div>
+            <div class="list-item"><div style="width:40px;height:40px;border-radius:10px;background:rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;"><i class="bi bi-graph-up"></i></div><div><div style="font-weight:500;">示例记录 #003</div><div style="font-size:12px;color:#64748b;">2024-01-13 · 正常</div></div></div>
         </div>
     </div>
-    <div id="list" class="page"><div class="card"><div class="list-item"><input type="text" class="form-control" placeholder="搜索..." style="background:rgba(15,23,42,0.5);border-color:rgba(255,255,255,0.1);color:#fff;"></div></div><div class="card"><div class="list-item">列表内容</div></div></div>
-    <div id="profile" class="page"><div class="card" style="padding:30px 20px;text-align:center;"><div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#ec4899);display:flex;align-items:center;justify-content:center;margin:0 auto 15px;font-size:36px;"><i class="bi bi-person"></i></div><div style="font-size:20px;font-weight:600;">管理员</div><div style="color:#94a3b8;font-size:14px;">数据可视化平台</div></div></div>
+    <div id="list" class="page"><div class="card"><div class="list-item"><input type="text" class="form-control" placeholder="搜索..." style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);color:#fff;"></div></div><div class="card"><div class="list-item">列表内容</div></div></div>
+    <div id="profile" class="page"><div class="card" style="padding:30px 20px;text-align:center;"><div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#ec4899);display:flex;align-items:center;justify-content:center;margin:0 auto 15px;font-size:36px;"><i class="bi bi-person"></i></div><div style="font-size:20px;font-weight:600;">管理员</div><div style="color:#64748b;font-size:14px;">数据可视化平台</div></div></div>
     <button class="fab" onclick="alert('新增功能开发中...')"><i class="bi bi-plus-lg"></i></button>
     <div class="bottom-nav">
         <div class="nav-btn active" onclick="showPage('home')"><i class="bi bi-house"></i><span>首页</span></div>

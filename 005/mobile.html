@@ -8,18 +8,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root { --primary: #11998e; --secondary: #38ef7d; }
-        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; color: #f1f5f9; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #ffffff 100%); min-height: 100vh; color: #f1f5f9; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
         .page { display: none; padding: 15px; }
         .page.active { display: block; }
         .header { padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .header-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .card { background: rgba(30,41,59,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; margin-bottom: 15px; border: none; }
+        .card { background: rgba(30,41,59,0.8); border: 1px solid rgba(0,0,0,0.1); border-radius: 16px; margin-bottom: 15px; border: none; }
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
         .stat-card { background: rgba(30,41,59,0.8); border-radius: 12px; padding: 15px; text-align: center; }
         .stat-value { font-size: 22px; font-weight: 700; color: var(--primary); }
-        .list-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
-        .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 5px 15px; border-radius: 10px; color: #94a3b8; font-size: 12px; }
+        .list-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(0,0,0,0.1); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
+        .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 5px 15px; border-radius: 10px; color: #64748b; font-size: 12px; }
         .nav-btn.active { color: var(--primary); }
         .nav-btn i { font-size: 22px; }
         .fab { position: fixed; bottom: 90px; right: 20px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; z-index: 999; border: none; }
@@ -29,7 +29,7 @@
         .subject-chn { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
         .subject-phy { background: rgba(6, 182, 212, 0.2); color: #22d3ee; }
         .review-today { background: linear-gradient(135deg, rgba(17,153,142,0.2), rgba(56,239,125,0.2)); border: 1px solid rgba(56,239,125,0.3); }
-        .weakness-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); overflow: hidden; }
+        .weakness-bar { height: 6px; border-radius: 3px; background: rgba(0,0,0,0.1); overflow: hidden; }
         .weakness-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
         .progress-ring { transform: rotate(-90deg); }
     </style>
@@ -39,10 +39,10 @@
     
     <div id="home" class="page active">
         <div class="stat-grid">
-            <div class="stat-card"><div class="stat-value">256</div><div style="color:#94a3b8;font-size:12px;">累计错题</div></div>
-            <div class="stat-card"><div class="stat-value">16</div><div style="color:#94a3b8;font-size:12px;">今日待复习</div></div>
-            <div class="stat-card"><div class="stat-value">92%</div><div style="color:#94a3b8;font-size:12px;">复习完成率</div></div>
-            <div class="stat-card"><div class="stat-value">42</div><div style="color:#94a3b8;font-size:12px;">本周新增</div></div>
+            <div class="stat-card"><div class="stat-value">256</div><div style="color:#64748b;font-size:12px;">累计错题</div></div>
+            <div class="stat-card"><div class="stat-value">16</div><div style="color:#64748b;font-size:12px;">今日待复习</div></div>
+            <div class="stat-card"><div class="stat-value">92%</div><div style="color:#64748b;font-size:12px;">复习完成率</div></div>
+            <div class="stat-card"><div class="stat-value">42</div><div style="color:#64748b;font-size:12px;">本周新增</div></div>
         </div>
         
         <div class="card review-today">
@@ -56,7 +56,7 @@
         </div>
         
         <div class="card">
-            <div style="padding:15px; border-bottom:1px solid rgba(255,255,255,0.1); font-weight:600;"><i class="bi bi-star me-2"></i>薄弱知识点</div>
+            <div style="padding:15px; border-bottom:1px solid rgba(0,0,0,0.1); font-weight:600;"><i class="bi bi-star me-2"></i>薄弱知识点</div>
             <div class="list-item">
                 <div style="flex:1;">
                     <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
@@ -87,17 +87,17 @@
         </div>
         
         <div class="card">
-            <div style="padding:15px; border-bottom:1px solid rgba(255,255,255,0.1); font-weight:600;"><i class="bi bi-clock-history me-2"></i>最近错题</div>
-            <div class="list-item"><div style="width:40px;height:40px;border-radius:10px;background:rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;color:#60a5fa;"><i class="bi bi-calculator"></i></div><div><div style="font-weight:500;font-size:14px;">一元二次方程求解</div><div style="font-size:12px;color:#94a3b8;">数学 · 2小时前</div></div></div>
-            <div class="list-item"><div style="width:40px;height:40px;border-radius:10px;background:rgba(168,85,247,0.2);display:flex;align-items:center;justify-content:center;color:#c084fc;"><i class="bi bi-translate"></i></div><div><div style="font-weight:500;font-size:14px;">定语从句辨析</div><div style="font-size:12px;color:#94a3b8;">英语 · 昨天</div></div></div>
-            <div class="list-item" style="border-bottom:none;"><div style="width:40px;height:40px;border-radius:10px;background:rgba(6,182,212,0.2);display:flex;align-items:center;justify-content:center;color:#22d3ee;"><i class="bi bi-lightning"></i></div><div><div style="font-weight:500;font-size:14px;">受力分析计算</div><div style="font-size:12px;color:#94a3b8;">物理 · 2天前</div></div></div>
+            <div style="padding:15px; border-bottom:1px solid rgba(0,0,0,0.1); font-weight:600;"><i class="bi bi-clock-history me-2"></i>最近错题</div>
+            <div class="list-item"><div style="width:40px;height:40px;border-radius:10px;background:rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;color:#60a5fa;"><i class="bi bi-calculator"></i></div><div><div style="font-weight:500;font-size:14px;">一元二次方程求解</div><div style="font-size:12px;color:#64748b;">数学 · 2小时前</div></div></div>
+            <div class="list-item"><div style="width:40px;height:40px;border-radius:10px;background:rgba(168,85,247,0.2);display:flex;align-items:center;justify-content:center;color:#c084fc;"><i class="bi bi-translate"></i></div><div><div style="font-weight:500;font-size:14px;">定语从句辨析</div><div style="font-size:12px;color:#64748b;">英语 · 昨天</div></div></div>
+            <div class="list-item" style="border-bottom:none;"><div style="width:40px;height:40px;border-radius:10px;background:rgba(6,182,212,0.2);display:flex;align-items:center;justify-content:center;color:#22d3ee;"><i class="bi bi-lightning"></i></div><div><div style="font-weight:500;font-size:14px;">受力分析计算</div><div style="font-size:12px;color:#64748b;">物理 · 2天前</div></div></div>
         </div>
     </div>
     
     <div id="book" class="page">
         <div class="card">
             <div class="list-item">
-                <input type="text" class="form-control" placeholder="搜索错题..." style="background:rgba(15,23,42,0.5);border-color:rgba(255,255,255,0.1);color:#fff;">
+                <input type="text" class="form-control" placeholder="搜索错题..." style="background:rgba(15,23,42,0.5);border-color:rgba(0,0,0,0.1);color:#fff;">
             </div>
         </div>
         <div class="d-flex gap-2 mb-3 overflow-auto pb-2">
@@ -116,8 +116,8 @@
                         <span style="font-size:14px;flex:1;">已知关于x的一元二次方程x² - 2(k+1)x + k² - 3 = 0，求k的取值范围</span>
                     </div>
                     <div style="display:flex;gap:10px;margin-top:8px;">
-                        <span style="font-size:11px;color:#94a3b8;"><i class="bi bi-repeat"></i> 错误3次</span>
-                        <span style="font-size:11px;color:#94a3b8;"><i class="bi bi-calendar"></i> 2024-01-15</span>
+                        <span style="font-size:11px;color:#64748b;"><i class="bi bi-repeat"></i> 错误3次</span>
+                        <span style="font-size:11px;color:#64748b;"><i class="bi bi-calendar"></i> 2024-01-15</span>
                     </div>
                 </div>
                 <i class="bi bi-chevron-right" style="color:#64748b;"></i>
@@ -129,8 +129,8 @@
                         <span style="font-size:14px;flex:1;">The teacher asked us ______ our homework on time.</span>
                     </div>
                     <div style="display:flex;gap:10px;margin-top:8px;">
-                        <span style="font-size:11px;color:#94a3b8;"><i class="bi bi-repeat"></i> 错误2次</span>
-                        <span style="font-size:11px;color:#94a3b8;"><i class="bi bi-calendar"></i> 2024-01-14</span>
+                        <span style="font-size:11px;color:#64748b;"><i class="bi bi-repeat"></i> 错误2次</span>
+                        <span style="font-size:11px;color:#64748b;"><i class="bi bi-calendar"></i> 2024-01-14</span>
                     </div>
                 </div>
                 <i class="bi bi-chevron-right" style="color:#64748b;"></i>
@@ -142,8 +142,8 @@
                         <span style="font-size:14px;flex:1;">一个质量为2kg的物体，在水平面上受到10N的拉力，求加速度</span>
                     </div>
                     <div style="display:flex;gap:10px;margin-top:8px;">
-                        <span style="font-size:11px;color:#94a3b8;"><i class="bi bi-repeat"></i> 错误1次</span>
-                        <span style="font-size:11px;color:#94a3b8;"><i class="bi bi-calendar"></i> 2024-01-13</span>
+                        <span style="font-size:11px;color:#64748b;"><i class="bi bi-repeat"></i> 错误1次</span>
+                        <span style="font-size:11px;color:#64748b;"><i class="bi bi-calendar"></i> 2024-01-13</span>
                     </div>
                 </div>
                 <i class="bi bi-chevron-right" style="color:#64748b;"></i>
@@ -155,39 +155,39 @@
         <div class="card review-today" style="text-align:center;padding:25px;">
             <div style="position:relative;display:inline-block;">
                 <svg class="progress-ring" width="120" height="120">
-                    <circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="none"/>
+                    <circle cx="60" cy="60" r="50" stroke="rgba(0,0,0,0.1)" stroke-width="8" fill="none"/>
                     <circle cx="60" cy="60" r="50" stroke="url(#gradient)" stroke-width="8" fill="none" stroke-dasharray="314" stroke-dashoffset="25" stroke-linecap="round"/>
                     <defs><linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#11998e"/><stop offset="100%" stop-color="#38ef7d"/></linearGradient></defs>
                 </svg>
                 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
                     <div style="font-size:28px;font-weight:700;">92%</div>
-                    <div style="font-size:12px;color:#94a3b8;">复习进度</div>
+                    <div style="font-size:12px;color:#64748b;">复习进度</div>
                 </div>
             </div>
             <h5 class="mt-3">艾宾浩斯智能复习</h5>
-            <p style="color:#94a3b8;font-size:13px;">科学记忆曲线，告别盲目刷题</p>
+            <p style="color:#64748b;font-size:13px;">科学记忆曲线，告别盲目刷题</p>
         </div>
         
         <div class="card">
-            <div style="padding:15px; border-bottom:1px solid rgba(255,255,255,0.1); font-weight:600;"><i class="bi bi-calendar2-week me-2"></i>复习计划</div>
+            <div style="padding:15px; border-bottom:1px solid rgba(0,0,0,0.1); font-weight:600;"><i class="bi bi-calendar2-week me-2"></i>复习计划</div>
             <div class="list-item">
                 <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">今</div>
-                <div style="flex:1;"><div style="font-weight:500;">今天 - 第1天</div><div style="font-size:12px;color:#94a3b8;">16道题待复习</div></div>
+                <div style="flex:1;"><div style="font-weight:500;">今天 - 第1天</div><div style="font-size:12px;color:#64748b;">16道题待复习</div></div>
                 <span class="badge bg-success">进行中</span>
             </div>
             <div class="list-item">
-                <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:#94a3b8;font-weight:700;">明</div>
-                <div style="flex:1;"><div style="font-weight:500;">明天 - 第2天</div><div style="font-size:12px;color:#94a3b8;">12道题待复习</div></div>
+                <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;color:#64748b;font-weight:700;">明</div>
+                <div style="flex:1;"><div style="font-weight:500;">明天 - 第2天</div><div style="font-size:12px;color:#64748b;">12道题待复习</div></div>
                 <span class="badge bg-secondary">待开始</span>
             </div>
             <div class="list-item">
-                <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:#94a3b8;font-weight:700;">4</div>
-                <div style="flex:1;"><div style="font-weight:500;">第4天</div><div style="font-size:12px;color:#94a3b8;">8道题待复习</div></div>
+                <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;color:#64748b;font-weight:700;">4</div>
+                <div style="flex:1;"><div style="font-weight:500;">第4天</div><div style="font-size:12px;color:#64748b;">8道题待复习</div></div>
                 <span class="badge bg-secondary">待开始</span>
             </div>
             <div class="list-item" style="border-bottom:none;">
-                <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:#94a3b8;font-weight:700;">7</div>
-                <div style="flex:1;"><div style="font-weight:500;">第7天</div><div style="font-size:12px;color:#94a3b8;">5道题待复习</div></div>
+                <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;color:#64748b;font-weight:700;">7</div>
+                <div style="flex:1;"><div style="font-weight:500;">第7天</div><div style="font-size:12px;color:#64748b;">5道题待复习</div></div>
                 <span class="badge bg-secondary">待开始</span>
             </div>
         </div>
@@ -195,34 +195,34 @@
     
     <div id="analysis" class="page">
         <div class="card">
-            <div style="padding:15px; border-bottom:1px solid rgba(255,255,255,0.1); font-weight:600;"><i class="bi bi-pie-chart me-2"></i>科目分布</div>
+            <div style="padding:15px; border-bottom:1px solid rgba(0,0,0,0.1); font-weight:600;"><i class="bi bi-pie-chart me-2"></i>科目分布</div>
             <div style="height:200px;display:flex;align-items:center;justify-content:center;">
                 <div style="text-align:center;">
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
-                        <div><div style="width:40px;height:40px;border-radius:10px;background:rgba(59,130,246,0.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;color:#60a5fa;"><i class="bi bi-calculator"></i></div><div style="font-weight:700;">98</div><div style="font-size:11px;color:#94a3b8;">数学</div></div>
-                        <div><div style="width:40px;height:40px;border-radius:10px;background:rgba(168,85,247,0.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;color:#c084fc;"><i class="bi bi-translate"></i></div><div style="font-weight:700;">65</div><div style="font-size:11px;color:#94a3b8;">英语</div></div>
-                        <div><div style="width:40px;height:40px;border-radius:10px;background:rgba(245,158,11,0.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;color:#fbbf24;"><i class="bi bi-book"></i></div><div style="font-weight:700;">42</div><div style="font-size:11px;color:#94a3b8;">语文</div></div>
-                        <div><div style="width:40px;height:40px;border-radius:10px;background:rgba(6,182,212,0.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;color:#22d3ee;"><i class="bi bi-lightning"></i></div><div style="font-weight:700;">35</div><div style="font-size:11px;color:#94a3b8;">物理</div></div>
+                        <div><div style="width:40px;height:40px;border-radius:10px;background:rgba(59,130,246,0.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;color:#60a5fa;"><i class="bi bi-calculator"></i></div><div style="font-weight:700;">98</div><div style="font-size:11px;color:#64748b;">数学</div></div>
+                        <div><div style="width:40px;height:40px;border-radius:10px;background:rgba(168,85,247,0.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;color:#c084fc;"><i class="bi bi-translate"></i></div><div style="font-weight:700;">65</div><div style="font-size:11px;color:#64748b;">英语</div></div>
+                        <div><div style="width:40px;height:40px;border-radius:10px;background:rgba(245,158,11,0.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;color:#fbbf24;"><i class="bi bi-book"></i></div><div style="font-weight:700;">42</div><div style="font-size:11px;color:#64748b;">语文</div></div>
+                        <div><div style="width:40px;height:40px;border-radius:10px;background:rgba(6,182,212,0.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;color:#22d3ee;"><i class="bi bi-lightning"></i></div><div style="font-weight:700;">35</div><div style="font-size:11px;color:#64748b;">物理</div></div>
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="card">
-            <div style="padding:15px; border-bottom:1px solid rgba(255,255,255,0.1); font-weight:600;"><i class="bi bi-trophy me-2"></i>学习成就</div>
+            <div style="padding:15px; border-bottom:1px solid rgba(0,0,0,0.1); font-weight:600;"><i class="bi bi-trophy me-2"></i>学习成就</div>
             <div class="list-item">
                 <div style="width:45px;height:45px;border-radius:12px;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;color:white;font-size:20px;">🏆</div>
-                <div style="flex:1;"><div style="font-weight:500;">初露锋芒</div><div style="font-size:12px;color:#94a3b8;">累计录入100道错题</div></div>
+                <div style="flex:1;"><div style="font-weight:500;">初露锋芒</div><div style="font-size:12px;color:#64748b;">累计录入100道错题</div></div>
                 <i class="bi bi-check-circle-fill text-success"></i>
             </div>
             <div class="list-item">
                 <div style="width:45px;height:45px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-size:20px;">🔥</div>
-                <div style="flex:1;"><div style="font-weight:500;">持之以恒</div><div style="font-size:12px;color:#94a3b8;">连续复习7天</div></div>
+                <div style="flex:1;"><div style="font-weight:500;">持之以恒</div><div style="font-size:12px;color:#64748b;">连续复习7天</div></div>
                 <i class="bi bi-check-circle-fill text-success"></i>
             </div>
             <div class="list-item" style="border-bottom:none;">
-                <div style="width:45px;height:45px;border-radius:12px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:#64748b;font-size:20px;">👑</div>
-                <div style="flex:1;"><div style="font-weight:500;">学霸之路</div><div style="font-size:12px;color:#94a3b8;">复习完成率达到95%</div></div>
+                <div style="width:45px;height:45px;border-radius:12px;background:rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;color:#64748b;font-size:20px;">👑</div>
+                <div style="flex:1;"><div style="font-weight:500;">学霸之路</div><div style="font-size:12px;color:#64748b;">复习完成率达到95%</div></div>
                 <div class="progress" style="width:50px;height:6px;"><div class="progress-bar" style="width:92%;background:linear-gradient(90deg,var(--primary),var(--secondary));"></div></div>
             </div>
         </div>
@@ -232,7 +232,7 @@
         <div class="card" style="padding:30px 20px;text-align:center;">
             <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;margin:0 auto 15px;font-size:36px;color:white;"><i class="bi bi-person"></i></div>
             <div style="font-size:20px;font-weight:600;">张三同学</div>
-            <div style="color:#94a3b8;font-size:14px;">初三年级 · 会员</div>
+            <div style="color:#64748b;font-size:14px;">初三年级 · 会员</div>
             <div class="d-flex justify-content-center gap-3 mt-3">
                 <span class="badge" style="background:rgba(17,153,142,0.2);color:#38ef7d;">数学</span>
                 <span class="badge" style="background:rgba(168,85,247,0.2);color:#c084fc;">英语</span>

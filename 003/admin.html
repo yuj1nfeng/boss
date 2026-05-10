@@ -16,14 +16,14 @@
             --danger-color: #ef4444;
             --info-color: #3b82f6;
             --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
         }
         * { box-sizing: border-box; }
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #ffffff 50%, #0f172a 100%);
             min-height: 100vh;
             color: var(--text-primary);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -32,16 +32,16 @@
         .sidebar {
             width: 260px;
             min-height: 100vh;
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #0f172a 100%);
             position: fixed;
             left: 0; top: 0;
-            border-right: 1px solid rgba(255,255,255,0.08);
+            border-right: 1px solid rgba(0,0,0,0.08);
             z-index: 100;
             transition: all 0.3s ease;
         }
         .sidebar-header {
             padding: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
         }
         .logo { display: flex; align-items: center; gap: 12px; }
         .logo-icon {
@@ -96,7 +96,7 @@
         .user-avatar:hover { transform: scale(1.1); }
         .stat-card {
             background: rgba(30,41,59,0.9);
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(0,0,0,0.08);
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 20px;
@@ -134,17 +134,17 @@
         }
         .card {
             background: rgba(30,41,59,0.9);
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(0,0,0,0.08);
             border-radius: 16px;
             margin-bottom: 20px;
             transition: all 0.3s ease;
         }
         .card:hover {
-            border-color: rgba(255,255,255,0.15);
+            border-color: rgba(0,0,0,0.12);
         }
         .card-header {
             background: transparent;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
             padding: 16px 20px;
             font-weight: 600;
             color: var(--text-primary);
@@ -176,7 +176,7 @@
             color: var(--text-secondary);
         }
         .btn-outline-light:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.1);
             border-color: rgba(255,255,255,0.3);
             color: var(--text-primary);
         }
@@ -187,7 +187,7 @@
             background: rgba(15,23,42,0.6);
             border-radius: 12px; margin-bottom: 12px;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
         }
         .member-card:hover {
             background: rgba(15,23,42,0.8);
@@ -206,7 +206,7 @@
             background: rgba(15,23,42,0.6);
             border-radius: 12px; margin-bottom: 10px;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
         }
         .task-item:hover { background: rgba(15,23,42,0.8); }
         .task-checkbox {
@@ -226,7 +226,7 @@
         .task-completed { text-decoration: line-through; opacity: 0.6; }
         .budget-card {
             background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(236,72,153,0.1));
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 16px;
             padding: 24px; text-align: center;
         }
@@ -238,7 +238,7 @@
             background-clip: text;
         }
         .progress {
-            background: rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.1);
             border-radius: 10px; height: 10px;
         }
         .progress-bar {
@@ -247,13 +247,13 @@
         }
         .table { color: var(--text-secondary); }
         .table th {
-            border-color: rgba(255,255,255,0.1);
+            border-color: rgba(0,0,0,0.1);
             color: var(--text-primary);
             font-weight: 600;
             background: rgba(245,158,11,0.05);
         }
         .table td {
-            border-color: rgba(255,255,255,0.05);
+            border-color: rgba(0,0,0,0.05);
             vertical-align: middle;
         }
         .table-hover tbody tr:hover {
@@ -262,7 +262,7 @@
         }
         .form-control, .form-select {
             background: rgba(15,23,42,0.8);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             color: var(--text-primary);
             border-radius: 10px;
             padding: 10px 15px;
@@ -284,7 +284,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
         }
         .shopping-item.checked { opacity: 0.5; text-decoration: line-through; }
         .health-card {
@@ -292,7 +292,7 @@
             background: rgba(15,23,42,0.6);
             border-radius: 12px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
         }
         .health-icon {
             width: 60px; height: 60px;
@@ -310,10 +310,10 @@
         }
         .modal-content {
             background: rgba(30,41,59,0.98);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 16px;
         }
-        .modal-header, .modal-footer { border-color: rgba(255,255,255,0.1); }
+        .modal-header, .modal-footer { border-color: rgba(0,0,0,0.1); }
         .modal-title { color: var(--text-primary); font-weight: 600; }
         .btn-close { filter: invert(1) brightness(0.9); }
         .text-muted { color: var(--text-muted) !important; }

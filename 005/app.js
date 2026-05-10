@@ -170,7 +170,7 @@ function initCharts() {
                         max: 100,
                         grid: { color: 'rgba(255, 255, 255, 0.1)' },
                         angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
-                        pointLabels: { color: '#cbd5e1', font: { size: 12 } },
+                        pointLabels: { color: '#475569', font: { size: 12 } },
                         ticks: {
                             color: '#94a3b8',
                             backdropColor: 'transparent',

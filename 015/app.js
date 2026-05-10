@@ -48,18 +48,18 @@ const chartOptions = {
     plugins: {
         legend: {
             labels: {
-                color: '#cbd5e1',
+                color: '#475569',
                 font: { size: 12 }
             }
         }
     },
     scales: {
         x: {
-            ticks: { color: '#cbd5e1' },
+            ticks: { color: '#475569' },
             grid: { color: 'rgba(255,255,255,0.05)' }
         },
         y: {
-            ticks: { color: '#cbd5e1' },
+            ticks: { color: '#475569' },
             grid: { color: 'rgba(255,255,255,0.05)' }
         }
     }
@@ -119,7 +119,7 @@ function initDashboardCharts() {
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { color: '#cbd5e1' }
+                        labels: { color: '#475569' }
                     }
                 }
             }
@@ -248,7 +248,7 @@ function initUserCharts() {
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { color: '#cbd5e1' }
+                        labels: { color: '#475569' }
                     }
                 }
             }
@@ -299,7 +299,7 @@ function initProductCharts() {
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { color: '#cbd5e1' }
+                        labels: { color: '#475569' }
                     }
                 }
             }

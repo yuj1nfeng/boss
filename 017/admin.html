@@ -15,13 +15,13 @@
             --warning-color: #f59e0b;
             --danger-color: #ef4444;
             --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
         }
 
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #ffffff 50%, #0f172a 100%);
             min-height: 100vh;
             color: var(--text-primary);
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -30,18 +30,18 @@
         .sidebar {
             width: 260px;
             min-height: 100vh;
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #0f172a 100%);
             position: fixed;
             left: 0;
             top: 0;
-            border-right: 1px solid rgba(255,255,255,0.1);
+            border-right: 1px solid rgba(0,0,0,0.1);
             z-index: 100;
             transition: all 0.3s ease;
         }
 
         .sidebar-header {
             padding: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
         }
 
         .logo {
@@ -99,9 +99,9 @@
             align-items: center;
             margin-bottom: 25px;
             padding: 15px 20px;
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
         }
 
         .page-title {
@@ -115,7 +115,7 @@
 
         .card {
             background: rgba(30, 41, 59, 0.9);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 15px;
             transition: all 0.3s ease;
         }
@@ -127,7 +127,7 @@
 
         .stat-card {
             background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(124, 58, 237, 0.15));
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 15px;
             padding: 20px;
             position: relative;
@@ -141,7 +141,7 @@
             right: -50%;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, transparent 70%);
         }
 
         .stat-value {
@@ -181,7 +181,7 @@
         }
 
         .data-table td {
-            border-color: rgba(255,255,255,0.05);
+            border-color: rgba(0,0,0,0.05);
             padding: 12px 15px;
             color: var(--text-secondary);
         }
@@ -232,7 +232,7 @@
 
         .pond-card {
             background: rgba(30, 41, 59, 0.9);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 15px;
             padding: 20px;
             cursor: pointer;
@@ -276,7 +276,7 @@
             left: 15px;
             width: 90px;
             height: 90px;
-            background: #1e293b;
+            background: #ffffff;
             border-radius: 50%;
         }
 
@@ -361,7 +361,7 @@
 
         .device-card {
             background: rgba(30, 41, 59, 0.9);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 15px;
             padding: 20px;
             text-align: center;
@@ -380,7 +380,7 @@
 
         .form-control, .form-select {
             background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             color: var(--text-primary);
             border-radius: 10px;
         }
@@ -393,7 +393,7 @@
         }
 
         .progress {
-            background: rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.1);
             border-radius: 10px;
             height: 8px;
         }
@@ -405,12 +405,12 @@
 
         .modal-content {
             background: rgba(30, 41, 59, 0.95);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 15px;
         }
 
         .modal-header, .modal-footer {
-            border-color: rgba(255,255,255,0.1);
+            border-color: rgba(0,0,0,0.1);
         }
 
         .btn-close {
@@ -430,7 +430,7 @@
         .toggle-switch {
             width: 50px;
             height: 26px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.1);
             border-radius: 13px;
             position: relative;
             cursor: pointer;

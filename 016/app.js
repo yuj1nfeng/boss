@@ -110,8 +110,8 @@ function initCharts() {
             responsive: true,
             plugins: { legend: { display: false } },
             scales: {
-                x: { ticks: { color: '#cbd5e1' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                y: { ticks: { color: '#cbd5e1' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                x: { ticks: { color: '#475569' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: '#475569' }, grid: { color: 'rgba(255,255,255,0.05)' } }
             }
         }
     });
@@ -142,9 +142,9 @@ function initCharts() {
         },
         options: {
             responsive: true,
-            plugins: { legend: { labels: { color: '#cbd5e1' } } },
+            plugins: { legend: { labels: { color: '#475569' } } },
             scales: {
-                x: { ticks: { color: '#cbd5e1' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                x: { ticks: { color: '#475569' }, grid: { color: 'rgba(255,255,255,0.05)' } },
                 y: { ticks: { color: '#3b82f6' }, grid: { color: 'rgba(255,255,255,0.05)' } },
                 y1: { position: 'right', ticks: { color: '#10b981' }, grid: { display: false } }
             }
@@ -173,7 +173,7 @@ function initCharts() {
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: { color: '#cbd5e1', padding: 15 }
+                    labels: { color: '#475569', padding: 15 }
                 }
             }
         }

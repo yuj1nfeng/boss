@@ -395,18 +395,18 @@ function initWaterTrendChart() {
             plugins: {
                 legend: {
                     labels: {
-                        color: '#cbd5e1'
+                        color: '#475569'
                     }
                 }
             },
             scales: {
                 x: {
                     grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#cbd5e1' }
+                    ticks: { color: '#475569' }
                 },
                 y: {
                     grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#cbd5e1' }
+                    ticks: { color: '#475569' }
                 }
             }
         }
@@ -438,7 +438,7 @@ function initSpeciesChart() {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        color: '#cbd5e1'
+                        color: '#475569'
                     }
                 }
             }
@@ -471,11 +471,11 @@ function initFeedChart() {
             scales: {
                 x: {
                     grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#cbd5e1' }
+                    ticks: { color: '#475569' }
                 },
                 y: {
                     grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#cbd5e1' }
+                    ticks: { color: '#475569' }
                 }
             }
         }
@@ -513,18 +513,18 @@ function initYieldChart() {
             plugins: {
                 legend: {
                     labels: {
-                        color: '#cbd5e1'
+                        color: '#475569'
                     }
                 }
             },
             scales: {
                 x: {
                     grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#cbd5e1' }
+                    ticks: { color: '#475569' }
                 },
                 y: {
                     grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#cbd5e1' }
+                    ticks: { color: '#475569' }
                 }
             }
         }
@@ -559,18 +559,18 @@ function initCostChart() {
             plugins: {
                 legend: {
                     labels: {
-                        color: '#cbd5e1'
+                        color: '#475569'
                     }
                 }
             },
             scales: {
                 x: {
                     grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#cbd5e1' }
+                    ticks: { color: '#475569' }
                 },
                 y: {
                     grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#cbd5e1' }
+                    ticks: { color: '#475569' }
                 }
             }
         }
@@ -614,18 +614,18 @@ function initRealtimeChart() {
             plugins: {
                 legend: {
                     labels: {
-                        color: '#cbd5e1'
+                        color: '#475569'
                     }
                 }
             },
             scales: {
                 x: {
                     grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#cbd5e1' }
+                    ticks: { color: '#475569' }
                 },
                 y: {
                     grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#cbd5e1' },
+                    ticks: { color: '#475569' },
                     min: 4,
                     max: 8
                 }

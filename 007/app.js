@@ -48,7 +48,7 @@ function initCharts() {
         plugins: {
             legend: {
                 labels: {
-                    color: '#cbd5e1',
+                    color: '#475569',
                     font: { size: 12 }
                 }
             }

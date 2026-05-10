@@ -15,13 +15,13 @@
             --danger-color: #ef4444;
             --info-color: #3b82f6;
             --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
         }
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #ffffff 50%, #0f172a 100%);
             min-height: 100vh;
             color: var(--text-primary);
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -29,16 +29,16 @@
         .sidebar {
             width: 260px;
             min-height: 100vh;
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #0f172a 100%);
             position: fixed;
             left: 0; top: 0;
-            border-right: 1px solid rgba(255,255,255,0.1);
+            border-right: 1px solid rgba(0,0,0,0.1);
             z-index: 100;
             transition: all 0.3s ease;
         }
         .sidebar-header {
             padding: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
         }
         .logo {
             display: flex;
@@ -78,7 +78,7 @@
             margin-bottom: 25px; padding: 15px 20px;
             background: rgba(30,41,59,0.8);
             border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
         }
         .page-title {
             font-size: 24px; font-weight: 600;
@@ -89,7 +89,7 @@
         }
         .card {
             background: rgba(30,41,59,0.9);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 15px;
             transition: all 0.3s ease;
         }
@@ -99,7 +99,7 @@
         }
         .stat-card {
             background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15));
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 15px;
             padding: 20px;
             position: relative; overflow: hidden;
@@ -108,7 +108,7 @@
             content: '';
             position: absolute; top: -50%; right: -50%;
             width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, transparent 70%);
         }
         .stat-value {
             font-size: 32px; font-weight: 700;
@@ -134,7 +134,7 @@
             border: none; padding: 12px 15px;
         }
         .data-table td {
-            border-color: rgba(255,255,255,0.05);
+            border-color: rgba(0,0,0,0.05);
             padding: 12px 15px;
             color: var(--text-secondary);
         }
@@ -168,7 +168,7 @@
         }
         .form-control, .form-select {
             background: rgba(15,23,42,0.8);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             color: var(--text-primary);
             border-radius: 10px;
         }
@@ -179,7 +179,7 @@
             box-shadow: 0 0 0 0.25rem rgba(99,102,241,0.25);
         }
         .progress {
-            background: rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.1);
             border-radius: 10px; height: 8px;
         }
         .progress-bar {
@@ -188,14 +188,14 @@
         }
         .modal-content {
             background: rgba(30,41,59,0.95);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 15px;
         }
-        .modal-header, .modal-footer { border-color: rgba(255,255,255,0.1); }
+        .modal-header, .modal-footer { border-color: rgba(0,0,0,0.1); }
         .btn-close { filter: invert(1); }
         .notice-card {
             background: rgba(30,41,59,0.9);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 15px;
             padding: 20px; margin-bottom: 16px;
             transition: all 0.3s ease; cursor: pointer;
@@ -211,7 +211,7 @@
             display: flex; align-items: center; gap: 12px;
             padding: 14px 16px; border-radius: 12px;
             cursor: pointer; transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         .chat-item:hover { background: rgba(99,102,241,0.1); }
         .chat-avatar {
@@ -228,7 +228,7 @@
             color: white; border-bottom-right-radius: 4px; margin-left: auto;
         }
         .chat-bubble.received {
-            background: rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.1);
             border-bottom-left-radius: 4px;
         }
         .checkin-grid {
@@ -452,7 +452,7 @@
                             </div>
                             <div class="progress"><div class="progress-bar" style="width:83.3%"></div></div>
                         </div>
-                        <hr style="border-color:rgba(255,255,255,0.1);">
+                        <hr style="border-color:rgba(0,0,0,0.1);">
                         <div class="d-flex justify-content-between">
                             <div class="text-center">
                                 <div style="font-size:20px;font-weight:700;color:#34d399;">40</div>
@@ -830,7 +830,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card" style="height:600px;display:flex;flex-direction:column;">
-                        <div class="p-3" style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                        <div class="p-3" style="border-bottom:1px solid rgba(0,0,0,0.1);">
                             <div class="d-flex align-items-center gap-3">
                                 <div style="width:40px;height:40px;border-radius:50%;background:rgba(99,102,241,0.2);display:flex;align-items:center;justify-content:center;">
                                     <i class="bi bi-person" style="color:#818cf8;"></i>
@@ -858,7 +858,7 @@
                                 <div class="chat-bubble received">好的老师，我会准时参加的！</div>
                             </div>
                         </div>
-                        <div class="p-3" style="border-top:1px solid rgba(255,255,255,0.1);">
+                        <div class="p-3" style="border-top:1px solid rgba(0,0,0,0.1);">
                             <div class="d-flex gap-2">
                                 <input type="text" class="form-control" placeholder="输入消息..." id="chatInput" onkeypress="if(event.key==='Enter')sendMessage()">
                                 <button class="btn btn-primary" onclick="sendMessage()">
@@ -929,7 +929,7 @@
             <div class="card p-4">
                 <div class="d-flex align-items-center gap-3">
                     <div style="width:50px;height:50px;border-radius:50%;background:rgba(107,114,128,0.2);display:flex;align-items:center;justify-content:center;font-size:22px;">
-                        <i class="bi bi-person" style="color:#94a3b8;"></i>
+                        <i class="bi bi-person" style="color:#64748b;"></i>
                     </div>
                     <div style="flex:1;">
                         <div class="d-flex justify-content-between">
