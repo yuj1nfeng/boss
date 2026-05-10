@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大规模水产养殖智能化管理系统 - 原型演示</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            position: fixed;
+            left: 0;
+            top: 0;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .nav-menu {
+            padding: 15px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(124, 58, 237, 0.2));
+            color: var(--text-primary);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 25px;
+            min-height: 100vh;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px 20px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(37, 99, 235, 0.2);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(124, 58, 237, 0.15));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .data-table {
+            width: 100%;
+        }
+
+        .data-table th {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--text-primary);
+            border: none;
+            padding: 12px 15px;
+        }
+
+        .data-table td {
+            border-color: rgba(255,255,255,0.05);
+            padding: 12px 15px;
+            color: var(--text-secondary);
+        }
+
+        .data-table tr:hover td {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-normal {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+        }
+
+        .status-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .status-offline {
+            background: rgba(107, 114, 128, 0.2);
+            color: #9ca3af;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .pond-card {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pond-card:hover {
+            transform: scale(1.02);
+            border-color: var(--primary-color);
+        }
+
+        .pond-card.selected {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .gauge-container {
+            position: relative;
+            width: 120px;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .gauge-bg {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #ef4444 0deg 60deg,
+                #f59e0b 60deg 120deg,
+                #10b981 120deg 240deg,
+                #f59e0b 240deg 300deg,
+                #ef4444 300deg 360deg
+            );
+            position: relative;
+        }
+
+        .gauge-inner {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 90px;
+            height: 90px;
+            background: #1e293b;
+            border-radius: 50%;
+        }
+
+        .gauge-needle {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            height: 50px;
+            background: linear-gradient(to top, #60a5fa, transparent);
+            transform-origin: bottom center;
+            transform: translateX(-50%) rotate(0deg);
+            transition: transform 1s ease;
+        }
+
+        .gauge-value {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .alert-item {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            padding-bottom: 20px;
+            border-left: 2px solid rgba(37, 99, 235, 0.3);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary-color);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .device-card {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .device-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .form-control, .form-select {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            border-radius: 10px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(15, 23, 42, 0.9);
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25);
+        }
+
+        .progress {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            height: 8px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+        }
+
+        .modal-content {
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+        }
+
+        .modal-header, .modal-footer {
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .btn-close {
+            filter: invert(1);
+        }
+
+        .feed-schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 26px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active::after {
+            left: 27px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="bi bi-water"></i>
+                </div>
+                <div>
+                    <div style="font-weight: 600; font-size: 16px;">智慧养殖</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">Aquaculture IoT</div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-menu">
+            <div class="nav-item active" onclick="showSection('dashboard')">
+                <i class="bi bi-speedometer2"></i>
+                <span>数据概览</span>
+            </div>
+            <div class="nav-item" onclick="showSection('water')">
+                <i class="bi bi-droplet"></i>
+                <span>水质监测</span>
+            </div>
+            <div class="nav-item" onclick="showSection('breeding')">
+                <i class="bi bi-fish"></i>
+                <span>养殖管理</span>
+            </div>
+            <div class="nav-item" onclick="showSection('feed')">
+                <i class="bi bi-basket"></i>
+                <span>饲料管理</span>
+            </div>
+            <div class="nav-item" onclick="showSection('disease')">
+                <i class="bi bi-shield-check"></i>
+                <span>疫病防控</span>
+            </div>
+            <div class="nav-item" onclick="showSection('devices')">
+                <i class="bi bi-hdd-network"></i>
+                <span>设备管理</span>
+            </div>
+            <div class="nav-item" onclick="showSection('analytics')">
+                <i class="bi bi-graph-up"></i>
+                <span>数据分析</span>
+            </div>
+            <div class="nav-item" onclick="showSection('settings')">
+                <i class="bi bi-gear"></i>
+                <span>系统设置</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div>
+                <button class="btn btn-outline-light d-md-none" onclick="toggleSidebar()">
+                    <i class="bi bi-list"></i>
+                </button>
+                <span class="page-title ms-2" id="pageTitle">数据概览</span>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div class="dropdown">
+                    <button class="btn btn-outline-light" style="border-radius: 10px;">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge bg-danger" style="position: absolute; top: 5px; right: 5px;">3</span>
+                    </button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 500;">管理员</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">admin@aquaculture.com</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div class="section active" id="dashboard">
+            <!-- Stats Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value" id="totalPonds">8</div>
+                                <div class="stat-label">养殖塘口</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(37, 99, 235, 0.2); color: #60a5fa;">
+                                <i class="bi bi-box"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value" id="totalDevices">48</div>
+                                <div class="stat-label">在线设备</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">
+                                <i class="bi bi-hdd-network-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value" id="totalFish">12.5万</div>
+                                <div class="stat-label">养殖总量(尾)</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(124, 58, 237, 0.2); color: #a78bfa;">
+                                <i class="bi bi-fish"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value" style="color: #fbbf24;" id="alerts">3</div>
+                                <div class="stat-label">待处理告警</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-8">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">水质指标趋势</h5>
+                            <select class="form-select form-select-sm" style="width: 150px;" onchange="updateWaterChart(this.value)">
+                                <option value="7d">近7天</option>
+                                <option value="30d" selected>近30天</option>
+                                <option value="90d">近90天</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="waterTrendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-4">
+                        <h5 class="mb-4">实时告警</h5>
+                        <div id="alertsList">
+                            <div class="alert-item" style="background: rgba(239, 68, 68, 0.1);">
+                                <i class="bi bi-exclamation-circle" style="color: #ef4444; font-size: 20px;"></i>
+                                <div class="flex-1">
+                                    <div style="font-weight: 500;">3号塘溶解氧过低</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">10分钟前 · DO: 2.3 mg/L</div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-danger" onclick="handleAlert(this)">处理</button>
+                            </div>
+                            <div class="alert-item" style="background: rgba(245, 158, 11, 0.1);">
+                                <i class="bi bi-exclamation-triangle" style="color: #f59e0b; font-size: 20px;"></i>
+                                <div class="flex-1">
+                                    <div style="font-weight: 500;">5号塘pH值异常</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">25分钟前 · pH: 9.2</div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-warning" onclick="handleAlert(this)">处理</button>
+                            </div>
+                            <div class="alert-item" style="background: rgba(245, 158, 11, 0.1);">
+                                <i class="bi bi-thermometer-sun" style="color: #f59e0b; font-size: 20px;"></i>
+                                <div class="flex-1">
+                                    <div style="font-weight: 500;">1号塘水温偏高</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">1小时前 · 温度: 32.5°C</div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-warning" onclick="handleAlert(this)">处理</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ponds Overview -->
+            <div class="card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="mb-0">塘口实时状态</h5>
+                    <button class="btn btn-primary" onclick="showAddPondModal()">
+                        <i class="bi bi-plus-lg me-2"></i>新增塘口
+                    </button>
+                </div>
+                <div class="row g-4" id="pondsGrid">
+                    <!-- Pond cards will be generated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Water Quality Section -->
+        <div class="section" id="water">
+            <div class="row g-4 mb-4">
+                <div class="col-md-12">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">选择监测塘口</h5>
+                            <select class="form-select" style="width: 200px;" id="pondSelector" onchange="selectPond(this.value)">
+                                <option value="all">全部塘口</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-4" id="waterGauges">
+                <!-- Gauge cards generated by JS -->
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-8">
+                    <div class="card p-4">
+                        <h5 class="mb-4">实时数据曲线</h5>
+                        <div class="chart-container">
+                            <canvas id="realtimeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-4">
+                        <h5 class="mb-4">指标详情</h5>
+                        <table class="table data-table">
+                            <thead>
+                                <tr>
+                                    <th>指标</th>
+                                    <th>当前值</th>
+                                    <th>状态</th>
+                                </tr>
+                            </thead>
+                            <tbody id="waterDetails">
+                                <!-- Data generated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breeding Section -->
+        <div class="section" id="breeding">
+            <div class="row g-4 mb-4">
+                <div class="col-md-12">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">养殖批次管理</h5>
+                            <button class="btn btn-primary" onclick="showAddBatchModal()">
+                                <i class="bi bi-plus-lg me-2"></i>新增批次
+                            </button>
+                        </div>
+                        <table class="table data-table">
+                            <thead>
+                                <tr>
+                                    <th>批次编号</th>
+                                    <th>塘口</th>
+                                    <th>品种</th>
+                                    <th>数量(尾)</th>
+                                    <th>投放日期</th>
+                                    <th>养殖天数</th>
+                                    <th>存活率</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="batchTable">
+                                <!-- Data generated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <h5 class="mb-4">生长周期追踪</h5>
+                        <div class="timeline-item">
+                            <div style="font-weight: 600;">鱼苗投放</div>
+                            <div style="font-size: 14px; color: var(--text-secondary);">2024-03-15 · 投放鲈鱼苗50000尾</div>
+                            <div class="progress mt-2" style="height: 6px;">
+                                <div class="progress-bar" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div style="font-weight: 600;">鱼苗期培育</div>
+                            <div style="font-size: 14px; color: var(--text-secondary);">进行中 · 当前规格: 5-8cm</div>
+                            <div class="progress mt-2" style="height: 6px;">
+                                <div class="progress-bar" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div style="font-weight: 600;">成鱼养殖</div>
+                            <div style="font-size: 14px; color: var(--text-secondary);">待开始 · 预计持续90天</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div style="font-weight: 600;">收获上市</div>
+                            <div style="font-size: 14px; color: var(--text-secondary);">待开始 · 预计2024-09-15</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <h5 class="mb-4">品种分布</h5>
+                        <div class="chart-container">
+                            <canvas id="speciesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feed Management Section -->
+        <div class="section" id="feed">
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value">2,580</div>
+                                <div class="stat-label">今日投喂量(kg)</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(37, 99, 235, 0.2); color: #60a5fa;">
+                                <i class="bi bi-graph-up-arrow"></i>
+                            </div>
+                        </div>
+                        <div style="font-size: 12px; color: var(--success-color); margin-top: 10px;">
+                            <i class="bi bi-arrow-up"></i> 较昨日 +8.5%
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value">45.2吨</div>
+                                <div class="stat-label">本月累计投喂</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(124, 58, 237, 0.2); color: #a78bfa;">
+                                <i class="bi bi-basket-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-value">12.8吨</div>
+                                <div class="stat-label">饲料库存</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 10px;">
+                            预计可用: 15天
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">智能投喂计划</h5>
+                            <button class="btn btn-sm btn-primary" onclick="addFeedSchedule()">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </div>
+                        <div id="feedScheduleList">
+                            <div class="feed-schedule-item">
+                                <div class="toggle-switch active" onclick="toggleFeed(this)"></div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 500;">早餐投喂</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">06:30 · 350kg · 1-4号塘</div>
+                                </div>
+                                <i class="bi bi-chevron-right" style="color: var(--text-secondary);"></i>
+                            </div>
+                            <div class="feed-schedule-item">
+                                <div class="toggle-switch active" onclick="toggleFeed(this)"></div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 500;">午餐投喂</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">12:00 · 400kg · 1-4号塘</div>
+                                </div>
+                                <i class="bi bi-chevron-right" style="color: var(--text-secondary);"></i>
+                            </div>
+                            <div class="feed-schedule-item">
+                                <div class="toggle-switch active" onclick="toggleFeed(this)"></div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 500;">晚餐投喂</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">18:30 · 380kg · 1-8号塘</div>
+                                </div>
+                                <i class="bi bi-chevron-right" style="color: var(--text-secondary);"></i>
+                            </div>
+                            <div class="feed-schedule-item">
+                                <div class="toggle-switch" onclick="toggleFeed(this)"></div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 500;">夜间补饲</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">23:00 · 150kg · 5-8号塘</div>
+                                </div>
+                                <i class="bi bi-chevron-right" style="color: var(--text-secondary);"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <h5 class="mb-4">投喂量趋势</h5>
+                        <div class="chart-container">
+                            <canvas id="feedChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disease Prevention Section -->
+        <div class="section" id="disease">
+            <div class="row g-4 mb-4">
+                <div class="col-md-12">
+                    <div class="card p-4">
+                        <h5 class="mb-4">AI智能诊断</h5>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="upload-area" style="border: 2px dashed rgba(37, 99, 235, 0.3); border-radius: 15px; padding: 40px; text-align: center; cursor: pointer;" onclick="document.getElementById('diseaseImage').click()">
+                                    <input type="file" id="diseaseImage" accept="image/*" style="display: none;" onchange="analyzeDisease(this)">
+                                    <i class="bi bi-cloud-upload" style="font-size: 48px; color: var(--primary-color);"></i>
+                                    <div style="margin-top: 15px; font-weight: 500;">点击上传病害图片</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">支持JPG、PNG格式，AI将自动识别分析</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="diagnosisResult" style="display: none;">
+                                    <div class="d-flex align-items-center gap-3 mb-3">
+                                        <div style="width: 50px; height: 50px; background: rgba(239, 68, 68, 0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-bug" style="font-size: 24px; color: #ef4444;"></i>
+                                        </div>
+                                        <div>
+                                            <div style="font-weight: 600; font-size: 18px;">细菌性烂鳃病</div>
+                                            <div style="font-size: 14px; color: var(--text-secondary);">置信度: 92.5%</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div style="font-weight: 500; margin-bottom: 8px;">症状描述:</div>
+                                        <div style="font-size: 14px; color: var(--text-secondary);">鳃丝腐烂、带有污泥、鳃盖骨内表皮充血，末端软骨外露，病鱼行动迟缓，食欲不振</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div style="font-weight: 500; margin-bottom: 8px;">推荐治疗方案:</div>
+                                        <div style="font-size: 14px; color: var(--text-secondary);">
+                                            1. 全池泼洒二氧化氯 0.3-0.5mg/L<br>
+                                            2. 内服氟苯尼考 10-15mg/kg体重<br>
+                                            3. 连续使用5-7天
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary w-100">生成完整治疗方案</button>
+                                </div>
+                                <div id="diagnosisPlaceholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; min-height: 250px; color: var(--text-secondary);">
+                                    <i class="bi bi-search" style="font-size: 48px; margin-bottom: 15px;"></i>
+                                    <div>上传图片后AI将进行智能分析</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <h5 class="mb-4">病害预警</h5>
+                        <div id="diseaseWarnings">
+                            <div class="alert-item" style="background: rgba(245, 158, 11, 0.1);">
+                                <i class="bi bi-exclamation-triangle" style="color: #f59e0b; font-size: 20px;"></i>
+                                <div class="flex-1">
+                                    <div style="font-weight: 500;">3号塘 - 小瓜虫病风险升高</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">水温持续低于20°C已达5天</div>
+                                </div>
+                                <span class="status-badge status-warning">中风险</span>
+                            </div>
+                            <div class="alert-item" style="background: rgba(16, 185, 129, 0.1);">
+                                <i class="bi bi-check-circle" style="color: #10b981; font-size: 20px;"></i>
+                                <div class="flex-1">
+                                    <div style="font-weight: 500;">1-2号塘 - 病害风险正常</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">各项水质指标处于正常范围</div>
+                                </div>
+                                <span class="status-badge status-normal">正常</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <h5 class="mb-4">防疫记录</h5>
+                        <table class="table data-table">
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>塘口</th>
+                                    <th>防疫措施</th>
+                                    <th>执行人</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2024-05-08</td>
+                                    <td>1-4号塘</td>
+                                    <td>EM菌调水</td>
+                                    <td>张三</td>
+                                </tr>
+                                <tr>
+                                    <td>2024-05-05</td>
+                                    <td>5-8号塘</td>
+                                    <td>聚维酮碘消毒</td>
+                                    <td>李四</td>
+                                </tr>
+                                <tr>
+                                    <td>2024-05-01</td>
+                                    <td>全部塘口</td>
+                                    <td>内服维生素C</td>
+                                    <td>张三</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Devices Section -->
+        <div class="section" id="devices">
+            <div class="row g-4 mb-4">
+                <div class="col-md-12">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">设备概览</h5>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-primary active">全部</button>
+                                <button class="btn btn-sm btn-outline-success">在线</button>
+                                <button class="btn btn-sm btn-outline-danger">离线</button>
+                            </div>
+                        </div>
+                        <div class="row g-4 text-center">
+                            <div class="col-md-3">
+                                <div class="device-card">
+                                    <div class="device-icon" style="background: rgba(37, 99, 235, 0.2); color: #60a5fa;">
+                                        <i class="bi bi-droplet"></i>
+                                    </div>
+                                    <div style="font-size: 24px; font-weight: 700;">16</div>
+                                    <div style="color: var(--text-secondary);">水质传感器</div>
+                                    <div class="status-badge status-normal mt-2">16 在线</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="device-card">
+                                    <div class="device-icon" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">
+                                        <i class="bi bi-moisture"></i>
+                                    </div>
+                                    <div style="font-size: 24px; font-weight: 700;">8</div>
+                                    <div style="color: var(--text-secondary);">增氧机控制器</div>
+                                    <div class="status-badge status-normal mt-2">8 在线</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="device-card">
+                                    <div class="device-icon" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">
+                                        <i class="bi bi-basket"></i>
+                                    </div>
+                                    <div style="font-size: 24px; font-weight: 700;">16</div>
+                                    <div style="color: var(--text-secondary);">自动投饵机</div>
+                                    <div class="status-badge status-normal mt-2">15 在线</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="device-card">
+                                    <div class="device-icon" style="background: rgba(124, 58, 237, 0.2); color: #a78bfa;">
+                                        <i class="bi bi-camera"></i>
+                                    </div>
+                                    <div style="font-size: 24px; font-weight: 700;">8</div>
+                                    <div style="color: var(--text-secondary);">监控摄像头</div>
+                                    <div class="status-badge status-warning mt-2">1 离线</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-4">
+                <h5 class="mb-4">设备列表</h5>
+                <table class="table data-table">
+                    <thead>
+                        <tr>
+                            <th>设备编号</th>
+                            <th>设备名称</th>
+                            <th>类型</th>
+                            <th>所属塘口</th>
+                            <th>状态</th>
+                            <th>最后通讯</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deviceTable">
+                        <!-- Data generated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div class="section" id="analytics">
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <h5 class="mb-4">产量预测分析</h5>
+                        <div class="chart-container">
+                            <canvas id="yieldChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <h5 class="mb-4">成本收益分析</h5>
+                        <div class="chart-container">
+                            <canvas id="costChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-12">
+                    <div class="card p-4">
+                        <h5 class="mb-4">关键指标对比</h5>
+                        <div class="row g-4 text-center">
+                            <div class="col-md-3">
+                                <div style="padding: 20px; background: rgba(37, 99, 235, 0.1); border-radius: 15px;">
+                                    <div style="font-size: 28px; font-weight: 700; color: var(--success-color);">8.5%</div>
+                                    <div style="color: var(--text-secondary);">饵料系数改善</div>
+                                    <div style="font-size: 12px; margin-top: 5px;">vs 上月</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div style="padding: 20px; background: rgba(37, 99, 235, 0.1); border-radius: 15px;">
+                                    <div style="font-size: 28px; font-weight: 700; color: var(--success-color);">12.3%</div>
+                                    <div style="color: var(--text-secondary);">存活率提升</div>
+                                    <div style="font-size: 12px; margin-top: 5px;">vs 上月</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div style="padding: 20px; background: rgba(37, 99, 235, 0.1); border-radius: 15px;">
+                                    <div style="font-size: 28px; font-weight: 700; color: var(--success-color);">15.8%</div>
+                                    <div style="color: var(--text-secondary);">人工成本节约</div>
+                                    <div style="font-size: 12px; margin-top: 5px;">vs 上月</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div style="padding: 20px; background: rgba(37, 99, 235, 0.1); border-radius: 15px;">
+                                    <div style="font-size: 28px; font-weight: 700; color: var(--warning-color);">3.2%</div>
+                                    <div style="color: var(--text-secondary);">能耗增加</div>
+                                    <div style="font-size: 12px; margin-top: 5px;">vs 上月</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="section" id="settings">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <h5 class="mb-4">告警阈值设置</h5>
+                        <div class="mb-3">
+                            <label class="form-label">溶解氧下限 (mg/L)</label>
+                            <input type="number" class="form-control" value="3.0" step="0.1">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">pH值范围</label>
+                            <div class="d-flex gap-2">
+                                <input type="number" class="form-control" value="6.5" step="0.1">
+                                <span style="padding: 10px;">-</span>
+                                <input type="number" class="form-control" value="8.5" step="0.1">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">温度上限 (°C)</label>
+                            <input type="number" class="form-control" value="32" step="1">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">氨氮上限 (mg/L)</label>
+                            <input type="number" class="form-control" value="0.5" step="0.1">
+                        </div>
+                        <button class="btn btn-primary w-100">保存设置</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <h5 class="mb-4">通知设置</h5>
+                        <div class="feed-schedule-item">
+                            <div class="form-check form-switch flex-grow-1">
+                                <input class="form-check-input" type="checkbox" checked id="smsAlert">
+                                <label class="form-check-label" for="smsAlert">短信告警通知</label>
+                            </div>
+                        </div>
+                        <div class="feed-schedule-item">
+                            <div class="form-check form-switch flex-grow-1">
+                                <input class="form-check-input" type="checkbox" checked id="wechatAlert">
+                                <label class="form-check-label" for="wechatAlert">微信公众号推送</label>
+                            </div>
+                        </div>
+                        <div class="feed-schedule-item">
+                            <div class="form-check form-switch flex-grow-1">
+                                <input class="form-check-input" type="checkbox" id="emailAlert">
+                                <label class="form-check-label" for="emailAlert">邮件通知</label>
+                            </div>
+                        </div>
+                        <div class="feed-schedule-item">
+                            <div class="form-check form-switch flex-grow-1">
+                                <input class="form-check-input" type="checkbox" checked id="voiceCall">
+                                <label class="form-check-label" for="voiceCall">紧急情况语音呼叫</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Add Pond -->
+    <div class="modal fade" id="addPondModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">新增养殖塘口</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">塘口编号</label>
+                        <input type="text" class="form-control" placeholder="例如: P009">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">塘口名称</label>
+                        <input type="text" class="form-control" placeholder="例如: 9号养殖塘">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">面积 (亩)</label>
+                        <input type="number" class="form-control" placeholder="10">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">水深 (米)</label>
+                        <input type="number" class="form-control" placeholder="2.5">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">确认添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Add Batch -->
+    <div class="modal fade" id="addBatchModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">新增养殖批次</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">选择塘口</label>
+                        <select class="form-select">
+                            <option>1号塘</option>
+                            <option>2号塘</option>
+                            <option>3号塘</option>
+                            <option>4号塘</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">养殖品种</label>
+                        <select class="form-select">
+                            <option>鲈鱼</option>
+                            <option>草鱼</option>
+                            <option>鲫鱼</option>
+                            <option>虾类</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">投放数量 (尾)</label>
+                        <input type="number" class="form-control" placeholder="50000">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">投放日期</label>
+                        <input type="date" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">确认添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
