@@ -27,13 +27,159 @@
             --text-secondary: #94a3b8;
         }
 
-        body {
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding-bottom: 70px;
+        /* PC端手机模拟器外壳 */
+        .phone-wrapper {
+            display: none;
+        }
+
+        /* PC端样式：显示手机模拟器 */
+        @media (min-width: 768px) {
+            body {
+                background: linear-gradient(135deg, #0a0f1a 0%, #1a2332 100%);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+
+            .phone-wrapper {
+                display: block;
+                position: relative;
+            }
+
+            .phone-frame {
+                width: 390px;
+                height: 844px;
+                background: #1a1a1a;
+                border-radius: 50px;
+                padding: 12px;
+                box-shadow: 
+                    0 0 0 2px #333,
+                    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                    inset 0 0 0 3px #2a2a2a;
+                position: relative;
+            }
+
+            .phone-screen {
+                width: 100%;
+                height: 100%;
+                background: var(--bg-dark);
+                border-radius: 40px;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .phone-notch {
+                position: absolute;
+                top: 12px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 120px;
+                height: 35px;
+                background: #1a1a1a;
+                border-radius: 0 0 20px 20px;
+                z-index: 100;
+            }
+
+            .phone-home-indicator {
+                position: absolute;
+                bottom: 8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 134px;
+                height: 5px;
+                background: #666;
+                border-radius: 3px;
+                z-index: 100;
+            }
+
+            .phone-side-button {
+                position: absolute;
+                background: #333;
+                border-radius: 2px;
+            }
+
+            .phone-power {
+                right: -3px;
+                top: 150px;
+                width: 3px;
+                height: 60px;
+            }
+
+            .phone-volume-up {
+                left: -3px;
+                top: 120px;
+                width: 3px;
+                height: 35px;
+            }
+
+            .phone-volume-down {
+                left: -3px;
+                top: 165px;
+                width: 3px;
+                height: 35px;
+            }
+
+            .phone-silent {
+                left: -3px;
+                top: 85px;
+                width: 3px;
+                height: 25px;
+            }
+
+            .app-content {
+                width: 100%;
+                height: 100%;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            .app-content::-webkit-scrollbar {
+                width: 0;
+                display: none;
+            }
+
+            /* PC端提示 */
+            .pc-hint {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(37, 99, 235, 0.9);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 12px;
+                font-size: 14px;
+                z-index: 1000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            }
+
+            .pc-hint a {
+                color: white;
+                text-decoration: underline;
+                margin-left: 8px;
+            }
+        }
+
+        /* 移动端样式：正常全屏 */
+        @media (max-width: 767px) {
+            body {
+                background: var(--bg-dark);
+                color: var(--text-primary);
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                min-height: 100vh;
+                overflow-x: hidden;
+                padding-bottom: 70px;
+            }
+
+            .phone-wrapper {
+                display: contents;
+            }
+
+            .app-content {
+                width: 100%;
+                min-height: 100vh;
+            }
         }
 
         /* 顶部状态栏 */
@@ -673,8 +819,28 @@
     </style>
 </head>
 <body>
-    <!-- 状态栏 -->
-    <div class="status-bar">
+    <!-- PC端提示 -->
+    <div class="pc-hint" id="pc-hint" style="display: none;">
+        📱 移动端演示模式
+        <a href="index.html">← 返回首页</a>
+    </div>
+
+    <!-- 手机外壳框架 -->
+    <div class="phone-wrapper">
+        <div class="phone-side-button phone-silent"></div>
+        <div class="phone-side-button phone-volume-up"></div>
+        <div class="phone-side-button phone-volume-down"></div>
+        <div class="phone-side-button phone-power"></div>
+        
+        <div class="phone-frame">
+            <div class="phone-screen">
+                <div class="phone-notch"></div>
+                <div class="phone-home-indicator"></div>
+                
+                <!-- 应用内容区域 -->
+                <div class="app-content">
+                    <!-- 状态栏 -->
+                    <div class="status-bar">
         <span>9:41</span>
         <span>📶 🔋</span>
     </div>
@@ -956,6 +1122,9 @@
         <div class="nav-item-mobile" onclick="showPage('profile')">
             <i class="bi bi-person nav-icon-mobile"></i>
             <span class="nav-label-mobile">我的</span>
+        </div>
+                </div>
+            </div>
         </div>
     </div>
 
