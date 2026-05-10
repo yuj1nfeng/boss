@@ -1,21 +1,4 @@
 // 移动端交互逻辑
-
-// 检测是否为移动设备
-function isMobileDevice() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-           window.innerWidth < 768;
-}
-
-// PC端显示提示
-document.addEventListener('DOMContentLoaded', function() {
-    if (!isMobileDevice()) {
-        const hint = document.getElementById('pc-hint');
-        if (hint) {
-            hint.style.display = 'block';
-        }
-    }
-});
-
 const pondsMobile = [
     { id: 1, name: '1号塘', fish: '鲈鱼', status: 'normal', do: 6.2, ph: 7.4, temp: 26.8 },
     { id: 2, name: '2号塘', fish: '草鱼', status: 'normal', do: 5.8, ph: 7.2, temp: 27.1 },
